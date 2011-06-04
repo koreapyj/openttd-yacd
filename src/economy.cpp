@@ -1234,7 +1234,7 @@ static void LoadUnloadVehicle(Vehicle *v, StationCargoList::OrderMap (&cargo_lef
 				 * Default action for destination-less cargo packets is final delivery when
 				 * accepted, otherwise no action. If the current order is forced unload,
 				 * always unload all cargo. */
-				VehicleCargoList::MoveToAction mta = HasBit(ge->acceptance_pickup, GoodsEntry::ACCEPTANCE) ? VehicleCargoList::MTA_FINAL_DELIVERY : VehicleCargoList::MTA_NO_ACTION;
+				VehicleCargoList::MoveToAction mta = HasBit(ge->acceptance_pickup, GoodsEntry::GES_ACCEPTANCE) ? VehicleCargoList::MTA_FINAL_DELIVERY : VehicleCargoList::MTA_NO_ACTION;
 				if (u->current_order.GetUnloadType() & OUFB_UNLOAD) mta = VehicleCargoList::MTA_UNLOAD;
 				remaining = v->cargo.MoveTo(&ge->cargo, amount_unloaded, mta, payment, last_visited, last_order, v->cargo_type, &did_transfer);
 
@@ -1242,7 +1242,7 @@ static void LoadUnloadVehicle(Vehicle *v, StationCargoList::OrderMap (&cargo_lef
 				accepted = true;
 			} else {
 				/* Cargo destinations are not enabled, handle transfer orders. */
-				if (HasBit(ge->acceptance_pickup, GoodsEntry::ACCEPTANCE) && !(u->current_order.GetUnloadType() & OUFB_TRANSFER)) {
+				if (HasBit(ge->acceptance_pickup, GoodsEntry::GES_ACCEPTANCE) && !(u->current_order.GetUnloadType() & OUFB_TRANSFER)) {
 					/* The cargo has reached its final destination, the packets may now be destroyed */
 					remaining = v->cargo.MoveTo<StationCargoList>(NULL, amount_unloaded, VehicleCargoList::MTA_FINAL_DELIVERY, payment, last_visited, v->cargo_type);
 
@@ -1266,9 +1266,9 @@ static void LoadUnloadVehicle(Vehicle *v, StationCargoList::OrderMap (&cargo_lef
 
 			if (did_transfer) {
 				/* Update station information. */
-				if (!HasBit(ge->acceptance_pickup, GoodsEntry::PICKUP)) {
+				if (!HasBit(ge->acceptance_pickup, GoodsEntry::GES_PICKUP)) {
 					InvalidateWindowData(WC_STATION_LIST, last_visited);
-					SetBit(ge->acceptance_pickup, GoodsEntry::PICKUP);
+					SetBit(ge->acceptance_pickup, GoodsEntry::GES_PICKUP);
 				}
 				dirty_station = true;
 			}

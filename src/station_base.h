@@ -28,9 +28,9 @@ static const byte INITIAL_STATION_RATING = 175;
 typedef std::list<RouteLink *> RouteLinkList;
 
 struct GoodsEntry {
-	enum AcceptancePickup {
-		ACCEPTANCE,
-		PICKUP
+	enum GoodsEntryStatus {
+		GES_ACCEPTANCE,
+		GES_PICKUP,
 	};
 
 	GoodsEntry() :
