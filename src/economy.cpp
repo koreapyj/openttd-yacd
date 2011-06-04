@@ -956,7 +956,7 @@ static Money DeliverGoods(int num_pieces, CargoID cargo_type, StationID dest, Ti
 {
 	assert(num_pieces > 0);
 
-	const Station *st = Station::Get(dest);
+	Station *st = Station::Get(dest);
 
 	uint accepted = 0;
 	if (cp_dest != INVALID_SOURCE) {
@@ -969,6 +969,13 @@ static Money DeliverGoods(int num_pieces, CargoID cargo_type, StationID dest, Ti
 
 	/* If this cargo type is always accepted, accept all */
 	if (HasBit(st->always_accepted, cargo_type)) accepted = num_pieces;
+
+	/* Update station statistics */
+	if (accepted > 0) {
+		SetBit(st->goods[cargo_type].acceptance_pickup, GoodsEntry::GES_EVER_ACCEPTED);
+		SetBit(st->goods[cargo_type].acceptance_pickup, GoodsEntry::GES_CURRENT_MONTH);
+		SetBit(st->goods[cargo_type].acceptance_pickup, GoodsEntry::GES_ACCEPTED_BIGTICK);
+	}
 
 	/* Update company statistics */
 	company->cur_economy.delivered_cargo += accepted;
