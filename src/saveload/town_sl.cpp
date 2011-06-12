@@ -174,6 +174,8 @@ static const SaveLoad _town_desc[] = {
 
 	SLE_CONDVAR(Town, cargo_produced,        SLE_UINT32,               161, SL_MAX_VERSION),
 
+	SLE_CONDLST(Town, psa_list,            REF_STORAGE,                161, SL_MAX_VERSION),
+
 	/* reserve extra space in savegame here. (currently 30 bytes) */
 	SLE_CONDNULL(30, 2, SL_MAX_VERSION),
 
@@ -264,7 +266,20 @@ static void Ptrs_TOWN()
 	}
 }
 
+/** Fix pointers when loading town data. */
+static void Ptrs_TOWN()
+{
+	/* Don't run when savegame version lower than 161. */
+	if (IsSavegameVersionBefore(161)) return;
+
+	Town *t;
+	FOR_ALL_TOWNS(t) {
+		SlObject(t, _town_desc);
+	}
+}
+
+/** Chunk handler for towns. */
 extern const ChunkHandler _town_chunk_handlers[] = {
-	{ 'HIDS', Save_HIDS, Load_HIDS, NULL,      NULL, CH_ARRAY },
+	{ 'HIDS', Save_HIDS, Load_HIDS,      NULL, NULL, CH_ARRAY },
 	{ 'CITY', Save_TOWN, Load_TOWN, Ptrs_TOWN, NULL, CH_ARRAY | CH_LAST},
 };

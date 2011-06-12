@@ -19,6 +19,8 @@
 #include "subsidy_type.h"
 #include "cargodest_base.h"
 #include "tilematrix_type.hpp"
+#include "newgrf_storage.h"
+#include <list>
 
 template <typename T>
 struct BuildingCounts {
@@ -113,6 +115,8 @@ struct Town : TownPool::PoolItem<&_town_pool>, CargoSourceSink {
 	uint32 cargo_accepted_max_weight; ///< NOSAVE: Cached maximum weight for an accepting square.
 
 	StationCoverageMatrix station_coverage; ///< NOSAVE: Is each 4*4 map square of the town inside the coverage area of any station?
+
+	std::list<PersistentStorage *> psa_list;
 
 	PartOfSubsidyByte part_of_subsidy; ///< NOSAVE: is this town a source/destination of a subsidy?
 
