@@ -2601,6 +2601,58 @@ bool AfterLoadGame()
 	}
 
 	if (IsSavegameVersionBefore(161)) {
+		/* Before savegame version 161, persistent storages were not stored in a pool. */
+
+		if (!IsSavegameVersionBefore(76)) {
+			Industry *ind;
+			FOR_ALL_INDUSTRIES(ind) {
+				assert(ind->psa != NULL);
+
+				/* Check if the old storage was empty. */
+				bool is_empty = true;
+				for (uint i = 0; i < sizeof(ind->psa->storage); i++) {
+					if (ind->psa->GetValue(i) != 0) {
+						is_empty = false;
+						break;
+					}
+				}
+
+				if (!is_empty) {
+					ind->psa->grfid = _industry_mngr.GetGRFID(ind->type);
+				} else {
+					delete ind->psa;
+					ind->psa = NULL;
+				}
+			}
+		}
+
+		if (!IsSavegameVersionBefore(145)) {
+			Station *st;
+			FOR_ALL_STATIONS(st) {
+				if (!st->facilities & FACIL_AIRPORT) continue;
+				assert(st->airport.psa != NULL);
+
+				/* Check if the old storage was empty. */
+				bool is_empty = true;
+				for (uint i = 0; i < sizeof(st->airport.psa->storage); i++) {
+					if (st->airport.psa->GetValue(i) != 0) {
+						is_empty = false;
+						break;
+					}
+				}
+
+				if (!is_empty) {
+					st->airport.psa->grfid = _airport_mngr.GetGRFID(st->airport.type);
+				} else {
+					delete st->airport.psa;
+					st->airport.psa = NULL;
+
+				}
+			}
+		}
+	}
+
+	if (IsSavegameVersionBefore(201)) {
 		/* Update cargo acceptance map of towns. */
 		for (TileIndex t = 0; t < map_size; t++) {
 			if (!IsTileType(t, MP_HOUSE)) continue;
