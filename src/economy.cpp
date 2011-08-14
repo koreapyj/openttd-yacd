@@ -1427,6 +1427,10 @@ static void LoadUnloadVehicle(Vehicle *front, StationCargoList::OrderMap (&cargo
 		}
 	}
 
+	if (anything_loaded || anything_unloaded) {
+		if (front->type == VEH_TRAIN) TriggerStationAnimation(st, st->xy, SAT_TRAIN_LOADS);
+	}
+
 	/* Only set completely_emptied, if we just unloaded all remaining cargo */
 	completely_emptied &= anything_unloaded;
 
