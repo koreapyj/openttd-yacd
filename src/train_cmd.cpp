@@ -3788,11 +3788,12 @@ static void CheckIfTrainNeedsService(Train *v)
 
 void Train::OnNewDay()
 {
+	AgeVehicle(this);
+
 	if ((++this->day_counter & 7) == 0) DecreaseVehicleValue(this);
 
 	if (this->IsFrontEngine()) {
 		CheckVehicleBreakdown(this);
-		AgeVehicle(this);
 
 		CheckIfTrainNeedsService(this);
 
@@ -3816,9 +3817,6 @@ void Train::OnNewDay()
 			SetWindowDirty(WC_VEHICLE_DETAILS, this->index);
 			SetWindowClassesDirty(WC_TRAINS_LIST);
 		}
-	} else if (this->IsEngine()) {
-		/* Also age engines that aren't front engines */
-		AgeVehicle(this);
 	}
 }
 
