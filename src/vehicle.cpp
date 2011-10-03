@@ -697,7 +697,6 @@ void Vehicle::PreDestructor()
 	}
 
 	if (this->IsEngineCountable()) {
-		Company::Get(this->owner)->num_engines[this->engine_type]--;
 		GroupStatistics::CountEngine(this, -1);
 		if (this->IsPrimaryVehicle()) GroupStatistics::CountVehicle(this, -1);
 
