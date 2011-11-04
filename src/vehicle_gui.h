@@ -20,7 +20,7 @@
 #include "company_type.h"
 #include <list>
 
-void ShowVehicleRefitWindow(const Vehicle *v, VehicleOrderID order, Window *parent);
+void ShowVehicleRefitWindow(const Vehicle *v, VehicleOrderID order, Window *parent, bool auto_refit = false);
 
 /** Constants of vehicle view widget indices */
 enum VehicleViewWindowWidgets {
