@@ -2220,7 +2220,7 @@ static bool BuildTownHouse(Town *t, TileIndex tile)
 	/* no house allowed at all, bail out */
 	if (!CanBuildHouseHere(tile, t->index, false)) return false;
 
-	uint z;
+	int z;
 	Slope slope = GetTileSlope(tile, &z);
 
 	/* Get the town zone type of the current tile, as well as the climate.
