@@ -1698,7 +1698,10 @@ static void DoCreateNewIndustry(Industry *i, TileIndex tile, IndustryType type, 
 
 	if (HasBit(indspec->callback_mask, CBM_IND_DECIDE_COLOUR)) {
 		uint16 res = GetIndustryCallback(CBID_INDUSTRY_DECIDE_COLOUR, 0, 0, i, type, INVALID_TILE);
-		if (res != CALLBACK_FAILED) i->random_colour = GB(res, 0, 4);
+		if (res != CALLBACK_FAILED) {
+			if (GB(res, 4, 11) != 0) ErrorUnknownCallbackResult(indspec->grf_prop.grffile->grfid, CBID_INDUSTRY_DECIDE_COLOUR, res);
+			i->random_colour = GB(res, 0, 4);
+		}
 	}
 
 	if (HasBit(indspec->callback_mask, CBM_IND_INPUT_CARGO_TYPES)) {
@@ -1706,6 +1709,10 @@ static void DoCreateNewIndustry(Industry *i, TileIndex tile, IndustryType type, 
 		for (uint j = 0; j < lengthof(i->accepts_cargo); j++) {
 			uint16 res = GetIndustryCallback(CBID_INDUSTRY_INPUT_CARGO_TYPES, j, 0, i, type, INVALID_TILE);
 			if (res == CALLBACK_FAILED || GB(res, 0, 8) == CT_INVALID) break;
+			if (indspec->grf_prop.grffile->grf_version >= 8 && res >= 0x100) {
+				ErrorUnknownCallbackResult(indspec->grf_prop.grffile->grfid, CBID_INDUSTRY_INPUT_CARGO_TYPES, res);
+				break;
+			}
 			i->accepts_cargo[j] = GetCargoTranslation(GB(res, 0, 8), indspec->grf_prop.grffile);
 		}
 	}
@@ -1715,6 +1722,10 @@ static void DoCreateNewIndustry(Industry *i, TileIndex tile, IndustryType type, 
 		for (uint j = 0; j < lengthof(i->produced_cargo); j++) {
 			uint16 res = GetIndustryCallback(CBID_INDUSTRY_OUTPUT_CARGO_TYPES, j, 0, i, type, INVALID_TILE);
 			if (res == CALLBACK_FAILED || GB(res, 0, 8) == CT_INVALID) break;
+			if (indspec->grf_prop.grffile->grf_version >= 8 && res >= 0x100) {
+				ErrorUnknownCallbackResult(indspec->grf_prop.grffile->grfid, CBID_INDUSTRY_OUTPUT_CARGO_TYPES, res);
+				break;
+			}
 			i->produced_cargo[j] = GetCargoTranslation(GB(res, 0, 8), indspec->grf_prop.grffile);
 		}
 	}
