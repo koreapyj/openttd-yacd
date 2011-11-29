@@ -382,7 +382,7 @@ static void ShipArrivesAt(const Vehicle *v, Station *st)
 			v->index,
 			st->index
 		);
-		AI::NewEvent(v->owner, new AIEventStationFirstVehicle(st->index, v->index));
+		AI::NewEvent(v->owner, new ScriptEventStationFirstVehicle(st->index, v->index));
 	}
 }
 
