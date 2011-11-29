@@ -1821,10 +1821,7 @@
     <ClInclude Include="..\src\ai\ai_scanner.hpp">
       <Filter>AI Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ai\api\ai_changelog.hpp">
-      <Filter>AI API</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ai\api\ai_info_docs.hpp">
+    <ClInclude Include="..\src\script\api\ai_changelog.hpp">
       <Filter>AI API</Filter>
     </ClInclude>
     <ClInclude Include="..\src\script\api\script_accounting.hpp">
@@ -1900,6 +1897,9 @@
       <Filter>Script API</Filter>
     </ClInclude>
     <ClInclude Include="..\src\script\api\script_industrytypelist.hpp">
+      <Filter>Script API</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\script\api\script_info_docs.hpp">
       <Filter>Script API</Filter>
     </ClInclude>
     <ClInclude Include="..\src\script\api\script_list.hpp">
