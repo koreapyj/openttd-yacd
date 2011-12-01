@@ -1046,9 +1046,7 @@ static bool DifficultyNoiseChange(int32 i)
 static bool MaxNoAIsChange(int32 i)
 {
 	if (GetGameSettings().difficulty.max_no_competitors != 0 &&
-#ifdef ENABLE_AI
 			AI::GetInfoList()->size() == 0 &&
-#endif /* ENABLE_AI */
 			(!_networking || _network_server)) {
 		ShowErrorMessage(STR_WARNING_NO_SUITABLE_AI, INVALID_STRING_ID, WL_CRITICAL);
 	}
@@ -1381,7 +1379,6 @@ static void NewsDisplayLoadConfig(IniFile *ini, const char *grpname)
 
 static void AILoadConfig(IniFile *ini, const char *grpname)
 {
-#ifdef ENABLE_AI
 	IniGroup *group = ini->GetGroup(grpname);
 	IniItem *item;
 
@@ -1406,7 +1403,6 @@ static void AILoadConfig(IniFile *ini, const char *grpname)
 		}
 		if (item->value != NULL) config->StringToSettings(item->value);
 	}
-#endif /* ENABLE_AI */
 }
 
 /**
@@ -1503,7 +1499,6 @@ static void NewsDisplaySaveConfig(IniFile *ini, const char *grpname)
 
 static void AISaveConfig(IniFile *ini, const char *grpname)
 {
-#ifdef ENABLE_AI
 	IniGroup *group = ini->GetGroup(grpname);
 
 	if (group == NULL) return;
@@ -1524,7 +1519,6 @@ static void AISaveConfig(IniFile *ini, const char *grpname)
 		IniItem *item = new IniItem(group, name, strlen(name));
 		item->SetValue(value);
 	}
-#endif /* ENABLE_AI */
 }
 
 /**
