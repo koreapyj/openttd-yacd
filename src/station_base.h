@@ -201,7 +201,7 @@ private:
 typedef SmallVector<Industry *, 2> IndustryVector;
 
 /** Station data structure */
-struct Station : SpecializedStation<Station, false> {
+struct Station FINAL : SpecializedStation<Station, false> {
 public:
 	RoadStop *GetPrimaryRoadStop(RoadStopType type) const
 	{
