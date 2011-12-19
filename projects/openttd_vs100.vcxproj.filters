@@ -2124,6 +2124,9 @@
     <ClInclude Include="..\src\script\api\script_marine.hpp">
       <Filter>Script API</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\script\api\script_news.hpp">
+      <Filter>Script API</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\script\api\script_object.hpp">
       <Filter>Script API</Filter>
     </ClInclude>
@@ -2287,6 +2290,9 @@
       <Filter>Script API Implementation</Filter>
     </ClCompile>
     <ClCompile Include="..\src\script\api\script_marine.cpp">
+      <Filter>Script API Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\script\api\script_news.cpp">
       <Filter>Script API Implementation</Filter>
     </ClCompile>
     <ClCompile Include="..\src\script\api\script_object.cpp">
