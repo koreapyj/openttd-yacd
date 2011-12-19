@@ -34,6 +34,7 @@
 #include "progress.h"
 #include "cargodest_func.h"
 #include "error.h"
+#include "game/game.hpp"
 
 #include "table/sprites.h"
 
@@ -163,6 +164,10 @@ static void _GenerateWorld(void *)
 			for (i = 0; i < 0x500; i++) {
 				RunTileLoop();
 				IncreaseGeneratingWorldProgress(GWP_RUNTILELOOP);
+			}
+
+			if (_game_mode != GM_EDITOR) {
+				Game::StartNew();
 			}
 		}
 
