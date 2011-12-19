@@ -3064,6 +3064,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\..\src\script\api\script_admin.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\..\src\script\api\script_airport.hpp"
 				>
 			</File>
@@ -3281,6 +3285,10 @@
 			>
 			<File
 				RelativePath=".\..\src\script\api\script_accounting.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\..\src\script\api\script_admin.cpp"
 				>
 			</File>
 			<File
