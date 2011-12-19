@@ -3295,6 +3295,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\..\src\script\api\script_text.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\..\src\script\api\script_tile.hpp"
 				>
 			</File>
@@ -3532,6 +3536,10 @@
 			</File>
 			<File
 				RelativePath=".\..\src\script\api\script_testmode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\..\src\script\api\script_text.cpp"
 				>
 			</File>
 			<File
