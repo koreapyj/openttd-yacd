@@ -552,6 +552,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\..\src\goal.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\..\src\ground_vehicle.cpp"
 				>
 			</File>
@@ -1045,6 +1049,14 @@
 			</File>
 			<File
 				RelativePath=".\..\src\gfxinit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\..\src\goal_base.h"
+				>
+			</File>
+			<File
+				RelativePath=".\..\src\goal_type.h"
 				>
 			</File>
 			<File
@@ -1904,6 +1916,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\..\src\goal_gui.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\..\src\graph_gui.cpp"
 				>
 			</File>
@@ -2133,6 +2149,10 @@
 			</File>
 			<File
 				RelativePath=".\..\src\widgets\genworld_widget.h"
+				>
+			</File>
+			<File
+				RelativePath=".\..\src\widgets\goal_widget.h"
 				>
 			</File>
 			<File
@@ -2441,6 +2461,10 @@
 			</File>
 			<File
 				RelativePath=".\..\src\saveload\gamelog_sl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\..\src\saveload\goal_sl.cpp"
 				>
 			</File>
 			<File
@@ -3144,6 +3168,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\..\src\script\api\script_goal.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\..\src\script\api\script_group.hpp"
 				>
 			</File>
@@ -3373,6 +3401,10 @@
 			</File>
 			<File
 				RelativePath=".\..\src\script\api\script_gamesettings.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\..\src\script\api\script_goal.cpp"
 				>
 			</File>
 			<File
