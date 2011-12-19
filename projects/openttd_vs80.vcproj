@@ -3135,6 +3135,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\..\src\script\api\script_game.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\..\src\script\api\script_gamesettings.hpp"
 				>
 			</File>
@@ -3348,6 +3352,10 @@
 			</File>
 			<File
 				RelativePath=".\..\src\script\api\script_execmode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\..\src\script\api\script_game.cpp"
 				>
 			</File>
 			<File
