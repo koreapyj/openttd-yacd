@@ -306,6 +306,9 @@
     <ClCompile Include="..\src\station.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\strgen\strgen_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\string.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -922,6 +925,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\strgen\strgen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\string_func.h">
@@ -2041,6 +2047,12 @@
       <Filter>Game Core</Filter>
     </ClCompile>
     <ClInclude Include="..\src\game\game_scanner.hpp">
+      <Filter>Game Core</Filter>
+    </ClInclude>
+    <ClCompile Include="..\src\game\game_text.cpp">
+      <Filter>Game Core</Filter>
+    </ClCompile>
+    <ClInclude Include="..\src\game\game_text.hpp">
       <Filter>Game Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\script\api\script_accounting.hpp">
