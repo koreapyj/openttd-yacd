@@ -29,7 +29,7 @@
 
 #include "table/strings.h"
 
-SubsidyPool _subsidy_pool("Subsidy");
+SubsidyPool _subsidy_pool("Subsidy"); ///< Pool for the subsidies.
 INSTANTIATE_POOL_METHODS(Subsidy)
 
 /**
@@ -66,6 +66,12 @@ void Subsidy::AwardTo(CompanyID company)
 	InvalidateWindowData(WC_SUBSIDIES_LIST, 0);
 }
 
+/**
+ * Setup the string parameters for printing the subsidy at the screen, and compute the news reference for the subsidy.
+ * @param s %Subsidy being printed.
+ * @param mode Unit of cargo used, \c true means general name, \c false means singular form.
+ * @return Reference of the subsidy in the news system.
+ */
 Pair SetupSubsidyDecodeParam(const Subsidy *s, bool mode)
 {
 	NewsReferenceType reftype1 = NR_NONE;
@@ -122,6 +128,7 @@ static inline void SetPartOfSubsidyFlag(SourceType type, SourceID index, PartOfS
 	}
 }
 
+/** Perform a full rebuild of the subsidies cache. */
 void RebuildSubsidisedSourceAndDestinationCache()
 {
 	Town *t;
@@ -137,6 +144,11 @@ void RebuildSubsidisedSourceAndDestinationCache()
 	}
 }
 
+/**
+ * Delete the subsidies associated with a given cargo source type and id.
+ * @param type  Cargo source type of the id.
+ * @param index Id to remove.
+ */
 void DeleteSubsidyWith(SourceType type, SourceID index)
 {
 	bool dirty = false;
@@ -155,6 +167,15 @@ void DeleteSubsidyWith(SourceType type, SourceID index)
 	}
 }
 
+/**
+ * Check whether a specific subsidy already exists.
+ * @param cargo Cargo type.
+ * @param src_type Type of source of the cargo, affects interpretation of \a src.
+ * @param src Id of the source.
+ * @param dst_type Type of the destination of the cargo, affects interpretation of \a dst.
+ * @param dst Id of the destination.
+ * @return \c true if the subsidy already exists, \c false if not.
+ */
 static bool CheckSubsidyDuplicate(CargoID cargo, SourceType src_type, SourceID src, SourceType dst_type, SourceID dst)
 {
 	const Subsidy *s;
@@ -168,7 +189,8 @@ static bool CheckSubsidyDuplicate(CargoID cargo, SourceType src_type, SourceID s
 	return false;
 }
 
-/** Checks if the source and destination of a subsidy are inside the distance limit.
+/**
+ * Checks if the source and destination of a subsidy are inside the distance limit.
  * @param src_type Type of #src.
  * @param src      Index of source.
  * @param dst_type Type of #dst.
@@ -183,7 +205,8 @@ static bool CheckSubsidyDistance(SourceType src_type, SourceID src, SourceType d
 	return (DistanceManhattan(tile_src, tile_dst) <= SUBSIDY_MAX_DISTANCE);
 }
 
-/** Creates a subsidy with the given parameters.
+/**
+ * Creates a subsidy with the given parameters.
  * @param cid      Subsidised cargo.
  * @param src_type Type of #src.
  * @param src      Index of source.
@@ -267,7 +290,8 @@ CommandCost CmdCreateSubsidy(TileIndex tile, DoCommandFlag flags, uint32 p1, uin
 	return CommandCost();
 }
 
-/** Tries to create a passenger subsidy between two towns.
+/**
+ * Tries to create a passenger subsidy between two towns.
  * @return True iff the subsidy was created.
  */
 bool FindSubsidyPassengerRoute()
@@ -305,7 +329,8 @@ bool FindSubsidyPassengerRoute()
 bool FindSubsidyCargoDestination(CargoID cid, SourceType src_type, SourceID src);
 
 
-/** Tries to create a cargo subsidy with a town as source.
+/**
+ * Tries to create a cargo subsidy with a town as source.
  * @return True iff the subsidy was created.
  */
 bool FindSubsidyTownCargoRoute()
@@ -341,7 +366,8 @@ bool FindSubsidyTownCargoRoute()
 	return FindSubsidyCargoDestination(cid, src_type, src);
 }
 
-/** Tries to create a cargo subsidy with an industry as source.
+/**
+ * Tries to create a cargo subsidy with an industry as source.
  * @return True iff the subsidy was created.
  */
 bool FindSubsidyIndustryCargoRoute()
@@ -378,7 +404,8 @@ bool FindSubsidyIndustryCargoRoute()
 	return FindSubsidyCargoDestination(cid, src_type, src);
 }
 
-/** Tries to find a suitable destination for the given source and cargo.
+/**
+ * Tries to find a suitable destination for the given source and cargo.
  * @param cid      Subsidized cargo.
  * @param src_type Type of #src.
  * @param src      Index of source.
@@ -469,6 +496,7 @@ bool FindSubsidyCargoDestination(CargoID cid, SourceType src_type, SourceID src)
 	return true;
 }
 
+/** Perform the monthly update of open subsidies, and try to create a new one. */
 void SubsidyMonthlyLoop()
 {
 	bool modified = false;
