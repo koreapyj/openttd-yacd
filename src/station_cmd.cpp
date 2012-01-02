@@ -18,6 +18,7 @@
 #include "town.h"
 #include "news_func.h"
 #include "train.h"
+#include "ship.h"
 #include "roadveh.h"
 #include "industry.h"
 #include "newgrf_cargo.h"
@@ -2532,6 +2533,8 @@ static CommandCost RemoveDock(TileIndex tile, DoCommandFlag flags)
 	CommandCost ret = CheckOwnership(st->owner);
 	if (ret.Failed()) return ret;
 
+	TileIndex docking_location = TILE_ADD(st->dock_tile, ToTileIndexDiff(GetDockOffset(st->dock_tile)));
+
 	TileIndex tile1 = st->dock_tile;
 	TileIndex tile2 = tile1 + TileOffsByDiagDir(GetDockDirection(tile1));
 
@@ -2558,6 +2561,18 @@ static CommandCost RemoveDock(TileIndex tile, DoCommandFlag flags)
 		st->UpdateCoverageCache();
 		st->RecomputeIndustriesNear();
 		DeleteStationIfEmpty(st);
+
+		/* All ships that were going to our station, can't go to it anymore.
+		 * Just clear the order, then automatically the next appropriate order
+		 * will be selected and in case of no appropriate order it will just
+		 * wander around the world. */
+		Ship *s;
+		FOR_ALL_SHIPS(s) {
+			if (s->dest_tile == docking_location) {
+				s->dest_tile = 0;
+				s->current_order.Free();
+			}
+		}
 	}
 
 	return CommandCost(EXPENSES_CONSTRUCTION, _price[PR_CLEAR_STATION_DOCK]);
