@@ -306,7 +306,7 @@ CommandCost CmdBuildRoadVehicle(TileIndex tile, DoCommandFlag flags, const Engin
 		/* Initialize cached values for realistic acceleration. */
 		if (_settings_game.vehicle.roadveh_acceleration_model != AM_ORIGINAL) v->CargoChanged();
 
-		VehicleMove(v, false);
+		VehicleUpdatePosition(v);
 
 		CheckConsistencyOfArticulatedVehicle(v);
 	}
@@ -1133,7 +1133,8 @@ static bool IndividualRoadVehicleController(RoadVehicle *v, const RoadVehicle *p
 
 		v->x_pos = gp.x;
 		v->y_pos = gp.y;
-		VehicleMove(v, !(v->vehstatus & VS_HIDDEN));
+		VehicleUpdatePosition(v);
+		if ((v->vehstatus & VS_HIDDEN) == 0) VehicleUpdateViewport(v, true);
 		return true;
 	}
 
