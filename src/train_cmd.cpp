@@ -2428,7 +2428,7 @@ public:
 
 		if (skip_first) ++this->index;
 
-		int conditional_depth = 0;
+		int depth = 0;
 
 		do {
 			/* Wrap around. */
@@ -2446,10 +2446,9 @@ public:
 					this->v->current_order = *order;
 					return UpdateOrderDest(this->v, order, 0, true);
 				case OT_CONDITIONAL: {
-					if (conditional_depth > this->v->GetNumOrders()) return false;
 					VehicleOrderID next = ProcessConditionalOrder(order, this->v);
 					if (next != INVALID_VEH_ORDER_ID) {
-						conditional_depth++;
+						depth++;
 						this->index = next;
 						/* Don't increment next, so no break here. */
 						continue;
@@ -2462,7 +2461,8 @@ public:
 			/* Don't increment inside the while because otherwise conditional
 			 * orders can lead to an infinite loop. */
 			++this->index;
-		} while (this->index != this->v->cur_real_order_index);
+			depth++;
+		} while (this->index != this->v->cur_real_order_index && depth < this->v->GetNumOrders());
 
 		return false;
 	}
