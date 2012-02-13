@@ -2760,6 +2760,16 @@ bool AfterLoadGame()
 		}
 	}
 
+	/* The road owner of standard road stops was not properly accounted for. */
+	if (IsSavegameVersionBefore(172)) {
+		for (TileIndex t = 0; t < map_size; t++) {
+			if (!IsStandardRoadStopTile(t)) continue;
+			Owner o = GetTileOwner(t);
+			SetRoadOwner(t, ROADTYPE_ROAD, o);
+			SetRoadOwner(t, ROADTYPE_TRAM, o);
+		}
+	}
+
 	/* Road stops is 'only' updating some caches */
 	AfterLoadRoadStops();
 	AfterLoadLabelMaps();
