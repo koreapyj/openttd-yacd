@@ -2491,6 +2491,14 @@
 			Name="Script"
 			>
 			<File
+				RelativePath=".\..\src\script\script_config.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\..\src\script\script_config.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\..\src\script\script_fatalerror.hpp"
 				>
 			</File>
