@@ -32,6 +32,7 @@
 #include "newgrf.h"
 #include "core/random_func.hpp"
 #include "core/backup_type.hpp"
+#include "progress.h"
 #include "cargodest_func.h"
 
 #include "table/sprites.h"
@@ -54,11 +55,6 @@ void InitializeGame(uint size_x, uint size_y, bool reset_date, bool reset_settin
  *  in the genworld.h and genworld.cpp! -- TrueLight
  */
 GenWorldInfo _gw;
-
-/** Rights for the performing work. */
-ThreadMutex *_modal_progress_work_mutex = ThreadMutex::New();
-/** Rights for the painting. */
-ThreadMutex *_modal_progress_paint_mutex = ThreadMutex::New();
 
 /** Whether we are generating the map or not. */
 bool _generating_world;
@@ -83,7 +79,7 @@ static void CleanupGeneration()
 	if (_cursor.sprite == SPR_CURSOR_ZZZ) SetMouseCursor(SPR_CURSOR_MOUSE, PAL_NONE);
 	/* Show all vital windows again, because we have hidden them */
 	if (_gw.threaded && _game_mode != GM_MENU) ShowVitalWindows();
-	_gw.active   = false;
+	SetModalProgress(false);
 	_gw.proc     = NULL;
 	_gw.abortp   = NULL;
 	_gw.threaded = false;
@@ -282,11 +278,11 @@ void HandleGeneratingWorldAbortion()
  */
 void GenerateWorld(GenWorldMode mode, uint size_x, uint size_y, bool reset_settings)
 {
-	if (_gw.active) return;
+	if (HasModalProgress()) return;
 	_gw.mode   = mode;
 	_gw.size_x = size_x;
 	_gw.size_y = size_y;
-	_gw.active = true;
+	SetModalProgress(true);
 	_gw.abort  = false;
 	_gw.abortp = NULL;
 	_gw.lc     = _local_company;
