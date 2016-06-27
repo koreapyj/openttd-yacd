@@ -52,6 +52,7 @@
 #include "../core/backup_type.hpp"
 #include "../smallmap_gui.h"
 #include "../news_func.h"
+#include "../group.h"
 #include "../cargodest_func.h"
 
 #include "table/strings.h"
@@ -253,7 +254,7 @@ static void InitializeWindowsAndCaches()
 
 	RecomputePrices();
 
-	SetCachedEngineCounts();
+	GroupStatistics::UpdateAfterLoad();
 
 	Station::RecomputeIndustriesNearForAll();
 	RebuildSubsidisedSourceAndDestinationCache();
@@ -2715,7 +2716,7 @@ void ReloadNewGRFData()
 	ResetVehiclePosHash();
 	AfterLoadVehicles(false);
 	StartupEngines();
-	SetCachedEngineCounts();
+	GroupStatistics::UpdateAfterLoad();
 	/* update station graphics */
 	AfterLoadStations();
 	/* Check and update house and town values */
