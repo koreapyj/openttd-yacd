@@ -28,6 +28,7 @@
 #include "waypoint_base.h"
 #include "company_base.h"
 #include "cargodest_func.h"
+#include "order_backup.h"
 
 #include "table/strings.h"
 
@@ -1744,6 +1745,8 @@ restart:
 			}
 		}
 	}
+
+	OrderBackup::RemoveOrder(type, destination);
 }
 
 /**
