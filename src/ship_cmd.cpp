@@ -179,9 +179,10 @@ void Ship::UpdateCache()
 	const ShipVehicleInfo *svi = ShipVehInfo(this->engine_type);
 
 	/* Get speed fraction for the current water type. Aqueducts are always canals. */
-	byte speed_frac = (GetEffectiveWaterClass(this->tile) == WATER_CLASS_SEA) ? svi->ocean_speed_frac : svi->canal_speed_frac;
-	/* speed_frac == 0 means no reduction while 0xFF means reduction to 1/256. */
-	this->vcache.cached_max_speed = GetVehicleProperty(this, PROP_SHIP_SPEED, svi->max_speed) * (256 - speed_frac) / 256;
+	bool is_ocean = GetEffectiveWaterClass(this->tile) == WATER_CLASS_SEA;
+	uint raw_speed = GetVehicleProperty(this, PROP_SHIP_SPEED, svi->max_speed);
+	this->vcache.cached_max_speed = svi->ApplyWaterClassSpeedFrac(raw_speed, is_ocean);
+
 	this->vcache.cached_cargo_mask = (this->cargo_type != INVALID_CARGO && this->cargo_cap > 0) ? 1 << this->cargo_type : 0;
 
 	/* Update cargo aging period. */
