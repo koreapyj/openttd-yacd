@@ -179,6 +179,8 @@ static const SaveLoad _town_desc[] = {
 
 	SLE_CONDLST(Town, psa_list,            REF_STORAGE,                161, SL_MAX_VERSION),
 
+	SLE_CONDVAR(Town, cargo_produced,       SLE_UINT32,                166, SL_MAX_VERSION),
+
 	/* reserve extra space in savegame here. (currently 30 bytes) */
 	SLE_CONDNULL(30, 2, SL_MAX_VERSION),
 
@@ -226,7 +228,7 @@ const SaveLoad *GetTileMatrixDesc()
 	return _tilematrix_desc;
 }
 
-static void RealSave_TOWN(Town *t)
+static void RealSave_Town(Town *t)
 {
 	SlObject(t, _town_desc);
 	t->SaveCargoSourceSink();
@@ -244,6 +246,14 @@ static void RealSave_TOWN(Town *t)
 	}
 	for (int i = TE_BEGIN; i < NUM_TE; i++) {
 		SlObject(&t->received[i], _town_received_desc);
+	}
+
+	if (IsSavegameVersionBefore(166)) return;
+
+	SlObject(&t->cargo_accepted, GetTileMatrixDesc());
+	if (t->cargo_accepted.area.w != 0) {
+		uint arr_len = t->cargo_accepted.area.w / AcceptanceMatrix::GRID * t->cargo_accepted.area.h / AcceptanceMatrix::GRID;
+		SlArray(t->cargo_accepted.data, arr_len, SLE_UINT32);
 	}
 }
 
@@ -292,6 +302,18 @@ void Load_TOWN()
 
 		if (t->townnamegrfid == 0 && !IsInsideMM(t->townnametype, SPECSTR_TOWNNAME_START, SPECSTR_TOWNNAME_LAST)) {
 			SlErrorCorrupt("Invalid town name generator");
+		}
+
+		if (IsSavegameVersionBefore(166)) continue;
+
+		SlObject(&t->cargo_accepted, GetTileMatrixDesc());
+		if (t->cargo_accepted.area.w != 0) {
+			uint arr_len = t->cargo_accepted.area.w / AcceptanceMatrix::GRID * t->cargo_accepted.area.h / AcceptanceMatrix::GRID;
+			t->cargo_accepted.data = MallocT<uint32>(arr_len);
+			SlArray(t->cargo_accepted.data, arr_len, SLE_UINT32);
+
+			/* Rebuild total cargo acceptance. */
+			UpdateTownCargoTotal(t);
 		}
 	}
 }

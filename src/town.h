@@ -21,6 +21,7 @@
 #include "tilematrix_type.hpp"
 #include "newgrf_storage.h"
 #include "cargotype.h"
+#include "tilematrix_type.hpp"
 #include <list>
 
 template <typename T>
@@ -81,6 +82,11 @@ struct Town : TownPool::PoolItem<&_town_pool>, CargoSourceSink {
 	uint32 goal[NUM_TE];                              ///< Amount of cargo required for the town to grow.
 
 	inline byte GetPercentTransported(CargoID cid) const { return this->supplied[cid].old_act * 256 / (this->supplied[cid].old_max + 1); }
+
+	/* Cargo production and acceptance stats. */
+	uint32 cargo_produced;           ///< Bitmap of all cargos produced by houses in this town.
+	AcceptanceMatrix cargo_accepted; ///< Bitmap of cargos accepted by houses for each 4*4 map square of the town.
+	uint32 cargo_accepted_total;     ///< NOSAVE: Bitmap of all cargos accepted by houses in this town.
 
 	uint16 time_until_rebuild;     ///< time until we rebuild a house
 

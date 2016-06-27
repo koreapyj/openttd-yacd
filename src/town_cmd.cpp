@@ -729,7 +729,7 @@ void UpdateTownCargoTotal(Town *t)
 }
 
 /**
- * Update accepted and produced town cargos around a specific tile.
+ * Update accepted town cargos around a specific tile.
  * @param t The town to update.
  * @param start Update the values around this tile.
  * @param update_total Set to true if the total cargo acceptance should be updated.
@@ -751,7 +751,7 @@ static void UpdateTownCargos(Town *t, TileIndex start, bool update_total = true,
 		AddProducedCargo_Town(tile, produced);
 	}
 
-	/* Create bitmask of accepted/produced cargos. */
+	/* Create bitmap of produced and accepted cargos. */
 	uint32 acc = 0;
 	for (uint cid = 0; cid < NUM_CARGO; cid++) {
 		if (accepted[cid] >= 8) SetBit(acc, cid);
