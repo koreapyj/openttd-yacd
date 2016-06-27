@@ -101,7 +101,8 @@ enum GroundVehicleSubtypeFlags {
 /** Cached often queried values common to all vehicles. */
 struct VehicleCache {
 	uint32 cached_cargo_mask; ///< Mask of all cargoes carried by the consist.
-	uint16 cached_max_speed; ///< Maximum speed of the consist (minimum of the max speed of all vehicles in the consist).
+	uint16 cached_max_speed;        ///< Maximum speed of the consist (minimum of the max speed of all vehicles in the consist).
+	uint16 cached_cargo_age_period; ///< Number of ticks before carried cargo is aged.
 
 	byte cached_vis_effect;  ///< Visual effect to show (see #VisualEffect)
 };
@@ -216,6 +217,7 @@ public:
 	byte cargo_subtype;                 ///< Used for livery refits (NewGRF variations)
 	uint16 cargo_cap;                   ///< total capacity
 	VehicleCargoList cargo;             ///< The cargo this vehicle is carrying
+	uint16 cargo_age_counter;           ///< Ticks till cargo is aged next.
 
 	uint32 travel_time;                 ///< Ticks since last loading
 	byte day_counter;                   ///< Increased by one for each day

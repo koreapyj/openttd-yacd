@@ -61,7 +61,6 @@
 VehicleID _new_vehicle_id;
 uint16 _returned_refit_capacity;      ///< Stores the capacity after a refit operation.
 uint16 _returned_mail_refit_capacity; ///< Stores the mail capacity after a refit operation (Aircraft only).
-byte _age_cargo_skip_counter;         ///< Skip aging of cargo?
 
 
 /** The pool with all our precious vehicles. */
@@ -249,6 +248,7 @@ Vehicle::Vehicle(VehicleType type)
 	this->last_station_loaded = INVALID_STATION;
 	this->current_order.index = INVALID_ORDER;
 	this->last_order_id      = INVALID_ORDER;
+	this->cargo_age_counter  = 1;
 }
 
 /**
@@ -590,8 +590,6 @@ static AutoreplaceMap _vehicles_to_autoreplace;
 
 void InitializeVehicles()
 {
-	_age_cargo_skip_counter = 1;
-
 	_vehicles_to_autoreplace.Reset();
 	ResetVehiclePosHash();
 }
@@ -805,8 +803,6 @@ void CallVehicleTicks()
 {
 	_vehicles_to_autoreplace.Clear();
 
-	_age_cargo_skip_counter = (_age_cargo_skip_counter == 0) ? CARGO_AGING_TICKS - 1 : (_age_cargo_skip_counter - 1);
-
 	RunVehicleDayProc();
 
 	Station *st;
@@ -829,7 +825,13 @@ void CallVehicleTicks()
 			case VEH_ROAD:
 			case VEH_AIRCRAFT:
 			case VEH_SHIP:
-				if (_age_cargo_skip_counter == 0) v->cargo.AgeCargo();
+				if (v->vcache.cached_cargo_age_period != 0) {
+					v->cargo_age_counter = min(v->cargo_age_counter, v->vcache.cached_cargo_age_period);
+					if (--v->cargo_age_counter == 0) {
+						v->cargo.AgeCargo();
+						v->cargo_age_counter = v->vcache.cached_cargo_age_period;
+					}
+				}
 
 				if (v->type == VEH_TRAIN && Train::From(v)->IsWagon()) continue;
 				if (v->type == VEH_ROAD && !RoadVehicle::From(v)->IsFrontEngine()) continue;

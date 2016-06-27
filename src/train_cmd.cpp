@@ -237,6 +237,8 @@ void Train::ConsistChanged(bool same_length)
 
 		/* Store carried cargo. */
 		u->cargo_cap = GetVehicleCapacity(u);
+		u->vcache.cached_cargo_age_period = GetVehicleProperty(u, PROP_TRAIN_CARGO_AGE_PERIOD, e_u->info.cargo_age_period);
+
 		if (u->cargo_type != INVALID_CARGO && u->cargo_cap > 0) SetBit(cargo_mask, u->cargo_type);
 
 		/* check the vehicle length (callback) */

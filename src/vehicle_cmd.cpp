@@ -382,6 +382,7 @@ CommandCost CmdRefitVehicle(TileIndex tile, DoCommandFlag flags, uint32 p1, uint
 				v->colourmap = PAL_NONE; // invalidate vehicle colour map
 				Ship::From(v)->UpdateCache();
 				break;
+
 			case VEH_AIRCRAFT:
 				v->InvalidateNewGRFCacheOfChain();
 				v->colourmap = PAL_NONE; // invalidate vehicle colour map
