@@ -40,7 +40,7 @@ public:
 	 * @return \c true if the reset was successful, \c false if the AI was no longer
 	 *  found.
 	 */
-	bool ResetInfo();
+	bool ResetInfo(bool);
 
 protected:
 	/* virtual */ void PushExtraConfigList();

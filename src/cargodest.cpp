@@ -180,7 +180,7 @@ static bool EnumCity(const Town *t, void *data)
 static bool EnumBigTown(const Town *t, void *data)
 {
 	EnumRandomData *erd = (EnumRandomData *)data;
-	return EnumAnyTown(t, erd) && (IsPassengerCargo(erd->cid) ? t->pass.old_max > _settings_game.economy.cargodest.big_town_pop[BIG_TOWN_POP_PAX] : t->mail.old_max > _settings_game.economy.cargodest.big_town_pop[BIG_TOWN_POP_MAIL]);
+	return EnumAnyTown(t, erd) && (IsPassengerCargo(erd->cid) ? t->supplied[CT_PASSENGERS].old_max > _settings_game.economy.cargodest.big_town_pop[BIG_TOWN_POP_PAX] : t->supplied[CT_MAIL].old_max > _settings_game.economy.cargodest.big_town_pop[BIG_TOWN_POP_MAIL]);
 }
 
 /** Enumerate nearby towns. */
@@ -455,7 +455,7 @@ void UpdateExpectedLinks(Town *t)
 		if (CargoHasDestinations(cid)) {
 			t->CreateSpecialLinks(cid);
 
-			uint max_amt = IsPassengerCargo(cid) ? t->pass.old_max : t->mail.old_max;
+			uint max_amt = IsPassengerCargo(cid) ? t->supplied[CT_PASSENGERS].old_max : t->supplied[CT_MAIL].old_max;
 			uint big_amt = _settings_game.economy.cargodest.big_town_pop[IsPassengerCargo(cid) ? BIG_TOWN_POP_PAX : BIG_TOWN_POP_MAIL];
 
 			uint num_links = _settings_game.economy.cargodest.base_town_links[IsSymmetricCargo(cid) ? BASE_TOWN_LINKS_SYMM : BASE_TOWN_LINKS];
@@ -563,7 +563,7 @@ void UpdateCargoLinks(Industry *ind)
 
 /* virtual */ uint Town::GetDestinationWeight(CargoID cid, byte weight_mod) const
 {
-	uint max_amt = IsPassengerCargo(cid) ? this->pass.old_max : this->mail.old_max;
+	uint max_amt = IsPassengerCargo(cid) ? this->supplied[CT_PASSENGERS].old_max : this->supplied[CT_MAIL].old_max;
 	uint big_amt = _settings_game.economy.cargodest.big_town_pop[IsPassengerCargo(cid) ? BIG_TOWN_POP_PAX : BIG_TOWN_POP_MAIL];
 
 	/* The weight is calculated by a piecewise function. We start with a predefined

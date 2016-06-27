@@ -335,7 +335,7 @@ void Station::UpdateCoverageCache()
 {
 	Town *t;
 	FOR_ALL_TOWNS(t) {
-		if (this->rect.AreaInExtendedRect(t->cargo_accepted.GetArea(), this->GetCatchmentRadius())) UpdateTownCargos(t, true);
+		if (this->rect.AreaInExtendedRect(t->cargo_accepted.GetArea(), this->GetCatchmentRadius())) UpdateTownCargoes(t, true);
 	}
 
 	for (Industry **ind = this->industries_near.Begin(); ind != this->industries_near.End(); ind++) {

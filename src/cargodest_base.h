@@ -26,10 +26,10 @@ struct CargoSourceSink;
 
 /** Information about a demand link for cargo. */
 struct CargoLink {
-	CargoSourceSink      *dest;      ///< Destination of the link.
-	TransportedCargoStat amount;     ///< Transported cargo statistics.
-	uint                 weight;     ///< Weight of this link.
-	byte                 weight_mod; ///< Weight modifier.
+	CargoSourceSink               *dest; ///< Destination of the link.
+	TransportedCargoStat<uint32> amount; ///< Transported cargo statistics.
+	uint                         weight; ///< Weight of this link.
+	byte                     weight_mod; ///< Weight modifier.
 
 	CargoLink(CargoSourceSink *d, byte mod) : dest(d), weight(1), weight_mod(mod) {}
 

@@ -54,7 +54,7 @@ struct CYapfNodeT {
 	int         m_cost;
 	int         m_estimate;
 
-	inline void Set(Node *parent, TileIndex tile, Trackdir td, bool is_choice)
+	inline void Set(Node *parent, bool is_choice)
 	{
 		m_hash_next = NULL;
 		m_parent = parent;

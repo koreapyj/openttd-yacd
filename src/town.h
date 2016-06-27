@@ -91,6 +91,9 @@ struct Town : TownPool::PoolItem<&_town_pool>, CargoSourceSink {
 	AcceptanceMatrix cargo_accepted; ///< Bitmap of cargoes accepted by houses for each 4*4 map square of the town.
 	uint32 cargo_accepted_total;     ///< NOSAVE: Bitmap of all cargoes accepted by houses in this town.
 
+	uint32 cargo_accepted_weights[NUM_CARGO]; ///< NOSAVE: Weight sum of accepting squares per cargo.
+	uint32 cargo_accepted_max_weight; ///< NOSAVE: Cached maximum weight for an accepting square.
+
 	uint16 time_until_rebuild;     ///< time until we rebuild a house
 
 	uint16 grow_counter;           ///< counter to count when to grow
@@ -101,13 +104,6 @@ struct Town : TownPool::PoolItem<&_town_pool>, CargoSourceSink {
 
 	bool larger_town;              ///< if this is a larger town and should grow more quickly
 	TownLayoutByte layout;         ///< town specific road layout
-
-	/* Current cargo acceptance and production. */
-	uint32 cargo_produced;           ///< Bitmap of all cargos produced by houses in this town.
-	AcceptanceMatrix cargo_accepted; ///< Bitmap of cargos accepted by houses for each 4*4 map square of the town.
-	uint32 cargo_accepted_total;     ///< NOSAVE: Bitmap of all cargos accepted by houses in this town.
-	uint32 cargo_accepted_weights[NUM_CARGO]; ///< NOSAVE: Weight sum of accepting squares per cargo.
-	uint32 cargo_accepted_max_weight; ///< NOSAVE: Cached maximum weight for an accepting square.
 
 	StationCoverageMatrix station_coverage; ///< NOSAVE: Is each 4*4 map square of the town inside the coverage area of any station?
 

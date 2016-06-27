@@ -1428,13 +1428,13 @@ static void LoadUnloadVehicle(Vehicle *front, StationCargoList::OrderMap (&cargo
 				int amount = 0;
 				CargoID cid;
 				FOR_EACH_SET_CARGO_ID(cid, refit_mask) {
-					if (cargo_left[cid] > amount) {
+					if (cargo_left[cid][last_order] > amount) {
 						/* Try to find out if auto-refitting would succeed. In case the refit is allowed,
 						 * the returned refit capacity will be greater than zero. */
 						new_subtype = GetBestFittingSubType(v, v, cid);
 						DoCommand(v_start->tile, v_start->index, cid | 1U << 6 | new_subtype << 8 | 1U << 16, DC_QUERY_COST, GetCmdRefitVeh(v_start)); // Auto-refit and only this vehicle including artic parts.
 						if (_returned_refit_capacity > 0) {
-							amount = cargo_left[cid];
+							amount = cargo_left[cid][last_order];
 							new_cid = cid;
 						}
 					}

@@ -453,7 +453,7 @@ public:
 				DoCommandP(0, this->window_number, 0, CMD_DELETE_TOWN | CMD_MSG(STR_ERROR_TOWN_CAN_T_DELETE));
 				break;
 
-			case TVW_INFOPANEL: // jump to demand destination
+			case WID_TV_INFOPANEL: // jump to demand destination
 				this->dest_list.OnClick(pt.y - this->dest_list_top - this->GetWidget<NWidgetBase>(widget)->pos_y);
 				break;
 		}
@@ -472,7 +472,7 @@ public:
 	 * Gets the desired height for the information panel.
 	 * @return the desired height in pixels.
 	 */
-	uint GetDesiredInfoHeight(int width) const
+	uint GetDesiredInfoHeight(int width)
 	{
 		uint aimed_height = 3 * FONT_HEIGHT_NORMAL + WD_FRAMERECT_TOP + WD_FRAMERECT_BOTTOM;
 

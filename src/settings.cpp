@@ -1186,7 +1186,7 @@ static bool StationCatchmentChanged(int32 p1)
 	Station::RecomputeIndustriesNearForAll();
 
 	Town *t;
-	FOR_ALL_TOWNS(t) UpdateTownCargos(t, true);
+	FOR_ALL_TOWNS(t) UpdateTownCargoes(t, true);
 
 	Industry *ind;
 	FOR_ALL_INDUSTRIES(ind) UpdateIndustryStationCoverage(ind);
