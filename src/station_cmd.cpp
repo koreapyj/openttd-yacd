@@ -50,6 +50,7 @@
 #include "newgrf_airporttiles.h"
 #include "order_backup.h"
 #include "newgrf_house.h"
+#include "company_gui.h"
 #include "cargodest_func.h"
 
 #include "table/strings.h"
@@ -1219,6 +1220,7 @@ CommandCost CmdBuildRailStation(TileIndex tile_org, DoCommandFlag flags, uint32 
 
 		numtracks_orig = numtracks;
 
+		Company *c = Company::Get(st->owner);
 		do {
 			TileIndex tile = tile_org;
 			int w = plat_len;
@@ -1236,6 +1238,9 @@ CommandCost CmdBuildRailStation(TileIndex tile_org, DoCommandFlag flags, uint32 
 					}
 				}
 
+				/* Railtype can change when overbuilding. */
+				if (IsRailStationTile(tile) && !IsStationTileBlocked(tile)) c->infrastructure.rail[GetRailType(tile)]--;
+
 				/* Remove animation if overbuilding */
 				DeleteAnimatedTile(tile);
 				byte old_specindex = HasStationTileRail(tile) ? GetCustomStationSpecIndex(tile) : 0;
@@ -1246,6 +1251,8 @@ CommandCost CmdBuildRailStation(TileIndex tile_org, DoCommandFlag flags, uint32 
 				SetCustomStationSpecIndex(tile, specindex);
 				SetStationTileRandomBits(tile, GB(Random(), 0, 4));
 				SetAnimationFrame(tile, 0);
+
+				if (!IsStationTileBlocked(tile)) c->infrastructure.rail[rt]++;
 
 				if (statspec != NULL) {
 					/* Use a fixed axis for GetPlatformInfo as our platforms / numtracks are always the right way around */
@@ -1289,6 +1296,7 @@ CommandCost CmdBuildRailStation(TileIndex tile_org, DoCommandFlag flags, uint32 
 		InvalidateWindowData(WC_SELECT_STATION, 0, 0);
 		InvalidateWindowData(WC_STATION_LIST, st->owner, 0);
 		SetWindowWidgetDirty(WC_STATION_VIEW, st->index, SVW_TRAINS);
+		DirtyCompanyInfrastructureWindows(st->owner);
 	}
 
 	return cost;
@@ -1411,10 +1419,12 @@ CommandCost RemoveFromRailBaseStation(TileArea ta, SmallVector<T *, 4> &affected
 			}
 
 			bool build_rail = keep_rail && !IsStationTileBlocked(tile);
+			if (!build_rail && !IsStationTileBlocked(tile)) Company::Get(owner)->infrastructure.rail[rt]--;
 
 			DoClearSquare(tile);
 			DeleteNewGRFInspectWindow(GSF_STATIONS, tile);
 			if (build_rail) MakeRailNormal(tile, owner, TrackToTrackBits(track), rt);
+			DirtyCompanyInfrastructureWindows(owner);
 
 			st->rect.AfterRemoveTile(st, tile);
 			AddTrackToSignalBuffer(tile, track, owner);
@@ -1557,6 +1567,7 @@ CommandCost RemoveRailStation(T *st, DoCommandFlag flags)
 				v = GetTrainForReservation(tile, track);
 				if (v != NULL) FreeTrainTrackReservation(v);
 			}
+			if (!IsStationTileBlocked(tile)) Company::Get(owner)->infrastructure.rail[GetRailType(tile)]--;
 			DoClearSquare(tile);
 			DeleteNewGRFInspectWindow(GSF_STATIONS, tile);
 			AddTrackToSignalBuffer(tile, track, owner);
@@ -1577,6 +1588,7 @@ CommandCost RemoveRailStation(T *st, DoCommandFlag flags)
 		st->speclist  = NULL;
 		st->cached_anim_triggers = 0;
 
+		DirtyCompanyInfrastructureWindows(st->owner);
 		SetWindowWidgetDirty(WC_STATION_VIEW, st->index, SVW_TRAINS);
 		st->UpdateVirtCoord();
 		DeleteStationIfEmpty(st);
@@ -3528,6 +3540,18 @@ static void ChangeTileOwner_Station(TileIndex tile, Owner old_owner, Owner new_o
 	if (!IsTileOwner(tile, old_owner)) return;
 
 	if (new_owner != INVALID_OWNER) {
+		/* Update company infrastructure counts. Only do it here
+		 * if the new owner is valid as otherwise the clear
+		 * command will do it for us. No need to dirty windows
+		 * here, we'll redraw the whole screen anyway.*/
+		Company *old_company = Company::Get(old_owner);
+		Company *new_company = Company::Get(new_owner);
+
+		if ((IsRailWaypoint(tile) || IsRailStation(tile)) && !IsStationTileBlocked(tile)) {
+			old_company->infrastructure.rail[GetRailType(tile)]--;
+			new_company->infrastructure.rail[GetRailType(tile)]++;
+		}
+
 		/* for buoys, owner of tile is owner of water, st->owner == OWNER_NONE */
 		SetTileOwner(tile, new_owner);
 		InvalidateWindowClassesData(WC_STATION_LIST, 0);
