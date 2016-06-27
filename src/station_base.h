@@ -93,7 +93,7 @@ struct Airport : public TileArea {
 	}
 
 	/** Check if this airport has at least one hangar. */
-	FORCEINLINE bool HasHangar() const
+	inline bool HasHangar() const
 	{
 		return this->GetSpec()->nof_depots > 0;
 	}
@@ -106,7 +106,7 @@ struct Airport : public TileArea {
 	 * @param tidc The tilediff to add to the airport tile.
 	 * @return The tile of this airport plus the rotated offset.
 	 */
-	FORCEINLINE TileIndex GetRotatedTileFromOffset(TileIndexDiffC tidc) const
+	inline TileIndex GetRotatedTileFromOffset(TileIndexDiffC tidc) const
 	{
 		const AirportSpec *as = this->GetSpec();
 		switch (this->rotation) {
@@ -128,7 +128,7 @@ struct Airport : public TileArea {
 	 * @pre hangar_num < GetNumHangars().
 	 * @return A tile with the given hangar.
 	 */
-	FORCEINLINE TileIndex GetHangarTile(uint hangar_num) const
+	inline TileIndex GetHangarTile(uint hangar_num) const
 	{
 		const AirportSpec *as = this->GetSpec();
 		for (uint i = 0; i < as->nof_depots; i++) {
@@ -145,7 +145,7 @@ struct Airport : public TileArea {
 	 * @pre IsHangarTile(tile).
 	 * @return The exit direction of the hangar, taking airport rotation into account.
 	 */
-	FORCEINLINE Direction GetHangarExitDirection(TileIndex tile) const
+	inline Direction GetHangarExitDirection(TileIndex tile) const
 	{
 		const AirportSpec *as = this->GetSpec();
 		const HangarTileTable *htt = GetHangarDataByTile(tile);
@@ -158,14 +158,14 @@ struct Airport : public TileArea {
 	 * @pre IsHangarTile(tile).
 	 * @return The hangar number of the hangar at the given tile.
 	 */
-	FORCEINLINE uint GetHangarNum(TileIndex tile) const
+	inline uint GetHangarNum(TileIndex tile) const
 	{
 		const HangarTileTable *htt = GetHangarDataByTile(tile);
 		return htt->hangar_num;
 	}
 
 	/** Get the number of hangars on this airport. */
-	FORCEINLINE uint GetNumHangars() const
+	inline uint GetNumHangars() const
 	{
 		uint num = 0;
 		uint counted = 0;
@@ -186,7 +186,7 @@ private:
 	 * @return The requested hangar information.
 	 * @pre The \a tile must be at a hangar tile at an airport.
 	 */
-	FORCEINLINE const HangarTileTable *GetHangarDataByTile(TileIndex tile) const
+	inline const HangarTileTable *GetHangarDataByTile(TileIndex tile) const
 	{
 		const AirportSpec *as = this->GetSpec();
 		for (uint i = 0; i < as->nof_depots; i++) {
@@ -250,12 +250,12 @@ public:
 	uint GetCatchmentRadius() const;
 	Rect GetCatchmentRect() const;
 
-	/* virtual */ FORCEINLINE bool TileBelongsToRailStation(TileIndex tile) const
+	/* virtual */ inline bool TileBelongsToRailStation(TileIndex tile) const
 	{
 		return IsRailStationTile(tile) && GetStationIndex(tile) == this->index;
 	}
 
-	FORCEINLINE bool TileBelongsToAirport(TileIndex tile) const
+	inline bool TileBelongsToAirport(TileIndex tile) const
 	{
 		return IsAirportTile(tile) && GetStationIndex(tile) == this->index;
 	}
@@ -282,7 +282,7 @@ public:
 		if (!st->TileBelongsToAirport(this->tile)) ++(*this);
 	}
 
-	FORCEINLINE TileIterator& operator ++()
+	inline TileIterator& operator ++()
 	{
 		(*this).OrthogonalTileIterator::operator++();
 		while (this->tile != INVALID_TILE && !st->TileBelongsToAirport(this->tile)) {

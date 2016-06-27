@@ -140,7 +140,7 @@ struct BaseStation : StationPool::PoolItem<&_station_pool> {
 	 * @param tile The tile to get the base station from.
 	 * @return the station associated with that tile.
 	 */
-	static FORCEINLINE BaseStation *GetByTile(TileIndex tile)
+	static inline BaseStation *GetByTile(TileIndex tile)
 	{
 		return BaseStation::Get(GetStationIndex(tile));
 	}
@@ -151,7 +151,7 @@ struct BaseStation : StationPool::PoolItem<&_station_pool> {
 	 * facilities left.
 	 * @return true if still in use
 	 */
-	FORCEINLINE bool IsInUse() const
+	inline bool IsInUse() const
 	{
 		return (this->facilities & ~FACIL_WAYPOINT) != 0;
 	}
@@ -173,7 +173,7 @@ struct SpecializedStation : public BaseStation {
 	 * Set station type correctly
 	 * @param tile The base tile of the station.
 	 */
-	FORCEINLINE SpecializedStation<T, Tis_waypoint>(TileIndex tile) :
+	inline SpecializedStation<T, Tis_waypoint>(TileIndex tile) :
 			BaseStation(tile)
 	{
 		this->facilities = EXPECTED_FACIL;
@@ -184,7 +184,7 @@ struct SpecializedStation : public BaseStation {
 	 * @param st the station to check.
 	 * @return true if the station is the type we expect it to be.
 	 */
-	static FORCEINLINE bool IsExpected(const BaseStation *st)
+	static inline bool IsExpected(const BaseStation *st)
 	{
 		return (st->facilities & FACIL_WAYPOINT) == EXPECTED_FACIL;
 	}
@@ -194,7 +194,7 @@ struct SpecializedStation : public BaseStation {
 	 * @param index tested index
 	 * @return is this index valid index of T?
 	 */
-	static FORCEINLINE bool IsValidID(size_t index)
+	static inline bool IsValidID(size_t index)
 	{
 		return BaseStation::IsValidID(index) && IsExpected(BaseStation::Get(index));
 	}
@@ -203,7 +203,7 @@ struct SpecializedStation : public BaseStation {
 	 * Gets station with given index
 	 * @return pointer to station with given index casted to T *
 	 */
-	static FORCEINLINE T *Get(size_t index)
+	static inline T *Get(size_t index)
 	{
 		return (T *)BaseStation::Get(index);
 	}
@@ -212,7 +212,7 @@ struct SpecializedStation : public BaseStation {
 	 * Returns station if the index is a valid index for this station type
 	 * @return pointer to station with given index if it's a station of this type
 	 */
-	static FORCEINLINE T *GetIfValid(size_t index)
+	static inline T *GetIfValid(size_t index)
 	{
 		return IsValidID(index) ? Get(index) : NULL;
 	}
@@ -222,7 +222,7 @@ struct SpecializedStation : public BaseStation {
 	 * @param tile The tile to get the station from.
 	 * @return the station associated with that tile.
 	 */
-	static FORCEINLINE T *GetByTile(TileIndex tile)
+	static inline T *GetByTile(TileIndex tile)
 	{
 		return GetIfValid(GetStationIndex(tile));
 	}
@@ -232,7 +232,7 @@ struct SpecializedStation : public BaseStation {
 	 * @param st BaseStation pointer
 	 * @return pointer to SpecializedStation
 	 */
-	static FORCEINLINE T *From(BaseStation *st)
+	static inline T *From(BaseStation *st)
 	{
 		assert(IsExpected(st));
 		return (T *)st;
@@ -243,7 +243,7 @@ struct SpecializedStation : public BaseStation {
 	 * @param st BaseStation pointer
 	 * @return pointer to SpecializedStation
 	 */
-	static FORCEINLINE const T *From(const BaseStation *st)
+	static inline const T *From(const BaseStation *st)
 	{
 		assert(IsExpected(st));
 		return (const T *)st;

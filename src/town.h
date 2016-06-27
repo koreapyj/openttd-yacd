@@ -170,7 +170,7 @@ struct Town : TownPool::PoolItem<&_town_pool>, CargoSourceSink {
 
 	void UpdateVirtCoord();
 
-	static FORCEINLINE Town *GetByTile(TileIndex tile)
+	static inline Town *GetByTile(TileIndex tile)
 	{
 		return Town::Get(GetTownIndex(tile));
 	}
