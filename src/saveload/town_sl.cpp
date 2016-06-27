@@ -149,10 +149,10 @@ static const SaveLoad _town_desc[] = {
 
 	SLE_CONDNULL(2, 0, 163),                 ///< pct_pass_transported / pct_mail_transported, now computed on the fly
 
-	    SLE_VAR(Town, act_food,              SLE_UINT16),
-	    SLE_VAR(Town, act_water,             SLE_UINT16),
-	    SLE_VAR(Town, new_act_food,          SLE_UINT16),
-	    SLE_VAR(Town, new_act_water,         SLE_UINT16),
+	    SLE_VAR(Town, food.old_act,          SLE_UINT16),
+	    SLE_VAR(Town, water.old_act,         SLE_UINT16),
+	    SLE_VAR(Town, food.new_act,          SLE_UINT16),
+	    SLE_VAR(Town, water.new_act,         SLE_UINT16),
 
 	SLE_CONDVAR(Town, time_until_rebuild,    SLE_FILE_U8 | SLE_VAR_U16,  0, 53),
 	SLE_CONDVAR(Town, grow_counter,          SLE_FILE_U8 | SLE_VAR_U16,  0, 53),

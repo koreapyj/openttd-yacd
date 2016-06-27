@@ -1546,20 +1546,8 @@ static void DoCreateTown(Town *t, TileIndex tile, uint32 townnameparts, TownSize
 	t->population = 0;
 	t->grow_counter = 0;
 	t->growth_rate = 250;
-	t->pass.new_max = 0;
-	t->mail.new_max = 0;
-	t->pass.new_act = 0;
-	t->mail.new_act = 0;
-	t->pass.old_max = 0;
-	t->mail.old_max = 0;
-	t->pass.old_act = 0;
-	t->mail.old_act = 0;
 
 	t->fund_buildings_months = 0;
-	t->new_act_food = 0;
-	t->new_act_water = 0;
-	t->act_food = 0;
-	t->act_water = 0;
 
 	for (uint i = 0; i != MAX_COMPANIES; i++) t->ratings[i] = RATING_INITIAL;
 
@@ -2914,10 +2902,10 @@ static void UpdateTownGrowRate(Town *t)
 	}
 
 	if (_settings_game.game_creation.landscape == LT_ARCTIC) {
-		if (TileHeight(t->xy) >= GetSnowLine() && t->act_food == 0 && t->population > 90) return;
+		if (TileHeight(t->xy) >= GetSnowLine() && t->food.old_act == 0 && t->population > 90) return;
 
 	} else if (_settings_game.game_creation.landscape == LT_TROPIC) {
-		if (GetTropicZone(t->xy) == TROPICZONE_DESERT && (t->act_food == 0 || t->act_water == 0) && t->population > 60) return;
+		if (GetTropicZone(t->xy) == TROPICZONE_DESERT && (t->food.old_act == 0 || t->water.old_act == 0) && t->population > 60) return;
 	}
 
 	/* Use the normal growth rate values if new buildings have been funded in
@@ -2938,10 +2926,9 @@ static void UpdateTownGrowRate(Town *t)
 static void UpdateTownAmounts(Town *t)
 {
 	t->pass.NewMonth();
-	t->act_food = t->new_act_food; t->new_act_food = 0;
-	t->act_water = t->new_act_water; t->new_act_water = 0;
-
 	t->mail.NewMonth();
+	t->food.NewMonth();
+	t->water.NewMonth();
 
 	SetWindowDirty(WC_TOWN_VIEW, t->index);
 }
