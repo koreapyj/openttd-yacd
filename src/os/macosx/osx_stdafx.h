@@ -43,14 +43,17 @@
 #define Point       OTTDPoint
 #define WindowClass OTTDWindowClass
 #define ScriptOrder	OTTDScriptOrder
+#define Palette     OTTDPalette
 #define RoutingFlags OTTDRoutingFlags
 
 #include <CoreServices/CoreServices.h>
+#include <ApplicationServices/ApplicationServices.h>
 
 #undef Rect
 #undef Point
 #undef WindowClass
 #undef ScriptOrder
+#undef Palette
 #undef RoutingFlags
 
 /* remove the variables that CoreServices defines, but we define ourselves too */
