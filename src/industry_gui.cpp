@@ -38,6 +38,8 @@
 #include "smallmap_gui.h"
 #include "cargodest_gui.h"
 
+#include "widgets/industry_widget.h"
+
 #include "table/strings.h"
 #include "table/sprites.h"
 
@@ -164,15 +166,6 @@ void CcBuildIndustry(const CommandCost &result, TileIndex tile, uint32 p1, uint3
 		}
 	}
 }
-
-/** Names of the widgets of the dynamic place industries gui */
-enum DynamicPlaceIndustriesWidgets {
-	DPIW_MATRIX_WIDGET,
-	DPIW_SCROLLBAR,
-	DPIW_INFOPANEL,
-	DPIW_DISPLAY_WIDGET,
-	DPIW_FUND_WIDGET,
-};
 
 static const NWidgetPart _nested_build_industry_widgets[] = {
 	NWidget(NWID_HORIZONTAL),
@@ -638,15 +631,6 @@ static inline bool IsProductionAlterable(const Industry *i)
 			(is->production_rate[0] != 0 || is->production_rate[1] != 0 || is->IsRawIndustry()));
 }
 
-/** Names of the widgets of the view industry gui */
-enum IndustryViewWidgets {
-	IVW_CAPTION,
-	IVW_VIEWPORT,
-	IVW_INFO,
-	IVW_GOTO,
-	IVW_DISPLAY,
-};
-
 class IndustryViewWindow : public Window
 {
 	/** Modes for changing production */
@@ -1062,14 +1046,6 @@ void ShowIndustryViewWindow(int industry)
 	AllocateWindowDescFront<IndustryViewWindow>(&_industry_view_desc, industry);
 }
 
-/** Names of the widgets of the industry directory gui */
-enum IndustryDirectoryWidgets {
-	IDW_DROPDOWN_ORDER,
-	IDW_DROPDOWN_CRITERIA,
-	IDW_INDUSTRY_LIST,
-	IDW_SCROLLBAR,
-};
-
 /** Widget definition of the industry directory gui */
 static const NWidgetPart _nested_industry_directory_widgets[] = {
 	NWidget(NWID_HORIZONTAL),
@@ -1440,14 +1416,6 @@ void ShowIndustryDirectory()
 {
 	AllocateWindowDescFront<IndustryDirectoryWindow>(&_industry_directory_desc, 0);
 }
-
-/** Widget numbers of the industry cargoes window, */
-enum IndustryCargoesWidgets {
-	ICW_CAPTION,
-	ICW_NOTIFY,
-	ICW_PANEL,
-	ICW_SCROLLBAR,
-};
 
 /** Widgets of the industry cargoes window. */
 static const NWidgetPart _nested_industry_cargoes_widgets[] = {
