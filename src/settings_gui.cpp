@@ -1492,6 +1492,7 @@ static SettingEntry _settings_economy[] = {
 	SettingEntry("economy.inflation"),
 	SettingEntry("economy.smooth_economy"),
 	SettingEntry("economy.feeder_payment_share"),
+	SettingEntry("economy.infrastructure_maintenance"),
 	SettingEntry("economy.cargodest.mode_pax_mail"),
 	SettingEntry("economy.cargodest.mode_town_cargo"),
 	SettingEntry("economy.cargodest.mode_others"),
