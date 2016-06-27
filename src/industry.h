@@ -185,6 +185,8 @@ void ReleaseDisastersTargetingIndustry(IndustryID);
 void UpdateIndustryAcceptance(Industry *ind);
 void UpdateIndustryStationCoverage(Industry *ind);
 
+bool IsTileForestIndustry(TileIndex tile);
+
 #define FOR_ALL_INDUSTRIES_FROM(var, start) FOR_ALL_ITEMS_FROM(Industry, industry_index, var, start)
 #define FOR_ALL_INDUSTRIES(var) FOR_ALL_INDUSTRIES_FROM(var, 0)
 
