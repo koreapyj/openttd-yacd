@@ -2653,6 +2653,11 @@ bool AfterLoadGame()
 		}
 	}
 
+	/* This triggers only when old snow_lines were copied into the snow_line_height. */
+	if (IsSavegameVersionBefore(164) && _settings_game.game_creation.snow_line_height >= MIN_SNOWLINE_HEIGHT * TILE_HEIGHT) {
+		_settings_game.game_creation.snow_line_height /= TILE_HEIGHT;
+	}
+
 	if (IsSavegameVersionBefore(201)) {
 		/* Update cargo acceptance map of towns. */
 		for (TileIndex t = 0; t < map_size; t++) {
