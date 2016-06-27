@@ -38,7 +38,7 @@ enum ProductionLevels {
 /**
  * Defines the internal data of a functional industry.
  */
-struct Industry : IndustryPool::PoolItem<&_industry_pool> {
+struct Industry : IndustryPool::PoolItem<&_industry_pool>, CargoSourceSink {
 	TileArea location;                  ///< Location of the industry
 	Town *town;                         ///< Nearest town
 	CargoID produced_cargo[2];          ///< 2 production cargo slots

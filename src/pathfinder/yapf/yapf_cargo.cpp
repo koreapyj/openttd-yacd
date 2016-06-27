@@ -171,7 +171,7 @@ public:
 		if (this->Yapf().PfDetectDestination(n)) {
 			Station *st = Station::Get(n.m_parent->GetRouteLink()->GetDestination());
 			/* Discard node if the station doesn't accept the cargo type. */
-			if (!HasBit(st->goods[follow->m_cid].acceptance_pickup, GoodsEntry::ACCEPTANCE)) return false;
+			if (!HasBit(st->goods[follow->m_cid].acceptance_pickup, GoodsEntry::GES_ACCEPTANCE)) return false;
 			/* Destination node, get delivery cost. Parent has the station. */
 			segment_cost += this->Yapf().DeliveryCost(st);
 			/* If this link comes from an origin station, penalize it to encourage

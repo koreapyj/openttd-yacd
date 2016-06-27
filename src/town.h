@@ -40,7 +40,7 @@ typedef Pool<Town, TownID, 64, 64000> TownPool;
 extern TownPool _town_pool;
 
 /** Town data structure. */
-struct Town : TownPool::PoolItem<&_town_pool> {
+struct Town : TownPool::PoolItem<&_town_pool>, CargoSourceSink {
 	TileIndex xy;                  ///< town center tile
 	TileIndex xy_aligned;          ///< NOSAVE: Town centre aligned to the #AcceptanceMatrix grid.
 

@@ -256,15 +256,6 @@ void Load_TOWN()
 	}
 }
 
-static void Ptrs_TOWN()
-{
-	Town *t;
-
-	FOR_ALL_TOWNS(t) {
-		t->PtrsCargoSourceSink();
-	}
-}
-
 /** Fix pointers when loading town data. */
 static void Ptrs_TOWN()
 {
@@ -274,6 +265,7 @@ static void Ptrs_TOWN()
 	Town *t;
 	FOR_ALL_TOWNS(t) {
 		SlObject(t, _town_desc);
+		t->PtrsCargoSourceSink();
 	}
 }
 
