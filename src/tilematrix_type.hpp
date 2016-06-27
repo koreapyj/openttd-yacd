@@ -27,10 +27,9 @@
  */
 template <typename T, uint N>
 class TileMatrix {
-	TileArea area; ///< Area covered by the matrix.
-
-	T *data; ///< Pointer to data array.
-
+	/** Allocates space for a new tile in the matrix.
+	 * @param tile Tile to add.
+	 */
 	void AllocateStorage(TileIndex tile)
 	{
 		uint old_left = TileX(this->area.tile) / N;
@@ -70,6 +69,10 @@ class TileMatrix {
 public:
 	static const uint GRID = N;
 
+	TileArea area; ///< Area covered by the matrix.
+
+	T *data; ///< Pointer to data array.
+
 	TileMatrix() : area(INVALID_TILE, 0, 0), data(NULL) {}
 
 	~TileMatrix()
@@ -98,16 +101,14 @@ public:
 		uint tile_y = (TileY(tile) / N) * N;
 		uint w = N, h = N;
 
-		if (tile_x >= extend * N) {
-			tile_x -= extend * N;
-			w += extend * N;
-		}
-		if (tile_y >= extend * N) {
-			tile_y -= extend * N;
-			h += extend * N;
-		}
-		if (tile_x + w < MapSizeX() - extend * N) w += extend * N;
-		if (tile_y + h < MapSizeY() - extend * N) h += extend * N;
+		w += min(extend * N, tile_x);
+		h += min(extend * N, tile_y);
+
+		tile_x -= min(extend * N, tile_x);
+		tile_y -= min(extend * N, tile_y);
+
+		w += min(extend * N, MapSizeX() - tile_x - w);
+		h += min(extend * N, MapSizeY() - tile_y - h);
 
 		return TileArea(TileXY(tile_x, tile_y), w, h);
 	}
