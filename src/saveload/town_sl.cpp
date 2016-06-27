@@ -231,7 +231,7 @@ const SaveLoad *GetTileMatrixDesc()
 	return _tilematrix_desc;
 }
 
-static void RealSave_Town(Town *t)
+static void RealSave_TOWN(Town *t)
 {
 	SlObject(t, _town_desc);
 	t->SaveCargoSourceSink();
