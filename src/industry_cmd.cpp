@@ -39,6 +39,7 @@
 #include "subsidy_func.h"
 #include "core/backup_type.hpp"
 #include "object_base.h"
+#include "game/game.hpp"
 
 #include "table/strings.h"
 #include "table/industry_land.h"
@@ -503,6 +504,7 @@ static CommandCost ClearTile_Industry(TileIndex tile, DoCommandFlag flags)
 
 	if (flags & DC_EXEC) {
 		AI::BroadcastNewEvent(new ScriptEventIndustryClose(i->index));
+		Game::NewEvent(new ScriptEventIndustryClose(i->index));
 		delete i;
 	}
 	return CommandCost(EXPENSES_CONSTRUCTION, indspec->GetRemovalCost());
@@ -1932,6 +1934,7 @@ CommandCost CmdBuildIndustry(TileIndex tile, DoCommandFlag flags, uint32 p1, uin
 		}
 		AddIndustryNewsItem(indspec->new_industry_text, NS_INDUSTRY_OPEN, ind->index);
 		AI::BroadcastNewEvent(new ScriptEventIndustryOpen(ind->index));
+		Game::NewEvent(new ScriptEventIndustryOpen(ind->index));
 	}
 
 	return CommandCost(EXPENSES_OTHER, indspec->GetConstructionCost());
@@ -2045,6 +2048,7 @@ static void AdvertiseIndustryOpening(const Industry *ind)
 	}
 	AddIndustryNewsItem(ind_spc->new_industry_text, NS_INDUSTRY_OPEN, ind->index);
 	AI::BroadcastNewEvent(new ScriptEventIndustryOpen(ind->index));
+	Game::NewEvent(new ScriptEventIndustryOpen(ind->index));
 }
 
 /**
@@ -2656,6 +2660,7 @@ static void ChangeIndustryProduction(Industry *i, bool monthly)
 		if (closeit) {
 			ns = NS_INDUSTRY_CLOSE;
 			AI::BroadcastNewEvent(new ScriptEventIndustryClose(i->index));
+			Game::NewEvent(new ScriptEventIndustryClose(i->index));
 		} else {
 			switch (WhoCanServiceIndustry(i)) {
 				case 0: ns = NS_INDUSTRY_NOBODY;  break;

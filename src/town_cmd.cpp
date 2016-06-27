@@ -48,6 +48,7 @@
 #include "object_base.h"
 #include "ai/ai.hpp"
 #include "cargodest_func.h"
+#include "game/game.hpp"
 
 #include "table/strings.h"
 #include "table/town_land.h"
@@ -1757,6 +1758,7 @@ CommandCost CmdFoundTown(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32 
 
 			AddNewsItem(STR_NEWS_NEW_TOWN, NS_INDUSTRY_OPEN, NR_TILE, tile, NR_NONE, UINT32_MAX, cn);
 			AI::BroadcastNewEvent(new ScriptEventTownFounded(t->index));
+			Game::NewEvent(new ScriptEventTownFounded(t->index));
 		}
 	}
 	return cost;
