@@ -154,7 +154,7 @@ public:
 	 * Gets the coordinates of the cargo's destination.
 	 * @return The destination tile.
 	 */
-	FORCEINLINE TileIndex DestinationXY() const
+	inline TileIndex DestinationXY() const
 	{
 		return this->dest_xy;
 	}
@@ -163,7 +163,7 @@ public:
 	 * Gets the ID of the destination of the cargo.
 	 * @return The destination ID.
 	 */
-	FORCEINLINE SourceID DestinationID() const
+	inline SourceID DestinationID() const
 	{
 		return this->dest_id;
 	}
@@ -172,7 +172,7 @@ public:
 	 * Gets the type of the destination of the cargo.
 	 * @return The destination type.
 	 */
-	FORCEINLINE SourceType DestinationType() const
+	inline SourceType DestinationType() const
 	{
 		return this->dest_type;
 	}
@@ -181,7 +181,7 @@ public:
 	 * Gets the routing behaviour flags of this packet.
 	 * @return The routing flags.
 	 */
-	FORCEINLINE byte Flags() const
+	inline byte Flags() const
 	{
 		return this->flags;
 	}
@@ -190,7 +190,7 @@ public:
 	 * Gets the order ID of the next desired hop.
 	 * @return The order ID of the next desired hop.
 	 */
-	FORCEINLINE OrderID NextHop() const
+	inline OrderID NextHop() const
 	{
 		return this->next_order;
 	}
@@ -199,7 +199,7 @@ public:
 	 * Gets the station ID where the packet should be unloaded next.
 	 * @return The station ID where the packet should be unloaded.
 	 */
-	FORCEINLINE StationID NextStation() const
+	inline StationID NextStation() const
 	{
 		return this->next_station;
 	}

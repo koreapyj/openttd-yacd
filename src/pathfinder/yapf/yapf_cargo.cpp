@@ -21,18 +21,18 @@ struct CYapfRouteLinkNodeKeyT {
 	RouteLink *m_link;
 
 	/** Initialize this node key. */
-	FORCEINLINE void Set(RouteLink *link)
+	inline void Set(RouteLink *link)
 	{
 		this->m_link = link;
 	}
 
 	/** Calculate the hash of this cargo/route key. */
-	FORCEINLINE int CalcHash() const
+	inline int CalcHash() const
 	{
 		return (int)(size_t)this->m_link >> 4;
 	}
 
-	FORCEINLINE bool operator == (const CYapfRouteLinkNodeKeyT& other) const
+	inline bool operator == (const CYapfRouteLinkNodeKeyT& other) const
 	{
 		return this->m_link == other.m_link;
 	}
@@ -50,7 +50,7 @@ struct CYapfRouteLinkNodeT : public CYapfNodeT<CYapfRouteLinkNodeKeyT, CYapfRout
 	uint m_num_transfers; ///< Number of transfers to reach this node.
 
 	/** Initialize this node. */
-	FORCEINLINE void Set(CYapfRouteLinkNodeT *parent, RouteLink *link)
+	inline void Set(CYapfRouteLinkNodeT *parent, RouteLink *link)
 	{
 		Base::Set(parent, false);
 		this->m_key.Set(link);
@@ -58,10 +58,10 @@ struct CYapfRouteLinkNodeT : public CYapfNodeT<CYapfRouteLinkNodeKeyT, CYapfRout
 	}
 
 	/** Get the route link of this node. */
-	FORCEINLINE RouteLink *GetRouteLink() const { return this->m_key.m_link; }
+	inline RouteLink *GetRouteLink() const { return this->m_key.m_link; }
 
 	/** Get the number of transfers needed to reach this node. */
-	FORCEINLINE int GetNumberOfTransfers() const { return this->m_num_transfers; }
+	inline int GetNumberOfTransfers() const { return this->m_num_transfers; }
 };
 
 typedef CNodeList_HashTableT<CYapfRouteLinkNodeT, 8, 10, 2048> CRouteLinkNodeList;
@@ -98,11 +98,11 @@ class CYapfCostRouteLinkT {
 	static const int RF_TIME_FACTOR       = 3;           ///< Time modifier for "fast" cargo packets.
 
 	/** To access inherited path finder. */
-	FORCEINLINE Tpf& Yapf() { return *static_cast<Tpf*>(this); }
-	FORCEINLINE const Tpf& Yapf() const { return *static_cast<const Tpf*>(this); }
+	inline Tpf& Yapf() { return *static_cast<Tpf*>(this); }
+	inline const Tpf& Yapf() const { return *static_cast<const Tpf*>(this); }
 
 	/** Check if this is a valid connection. */
-	FORCEINLINE bool ValidLink(Node &n, const RouteLink *link, const RouteLink *parent) const
+	inline bool ValidLink(Node &n, const RouteLink *link, const RouteLink *parent) const
 	{
 		/* If the parent link has an owner, and the owner is different to
 		 * the new owner, discard the node. Otherwise cargo could switch
@@ -125,7 +125,7 @@ class CYapfCostRouteLinkT {
 	}
 
 	/** Cost of a single route link. */
-	FORCEINLINE int RouteLinkCost(const RouteLink *link, const RouteLink *parent) const
+	inline int RouteLinkCost(const RouteLink *link, const RouteLink *parent) const
 	{
 		int cost = 0;
 
@@ -207,17 +207,17 @@ class CYapfOriginRouteLinkT {
 	SmallVector<RouteLink, 2> m_origin;
 
 	/** To access inherited path finder. */
-	FORCEINLINE Tpf& Yapf() { return *static_cast<Tpf*>(this); }
+	inline Tpf& Yapf() { return *static_cast<Tpf*>(this); }
 
 public:
 	/** Get the current cargo type. */
-	FORCEINLINE CargoID GetCargoID() const
+	inline CargoID GetCargoID() const
 	{
 		return this->m_cid;
 	}
 
 	/** Get the cargo routing flags. */
-	FORCEINLINE byte GetFlags() const
+	inline byte GetFlags() const
 	{
 		return this->m_flags;
 	}
@@ -265,11 +265,11 @@ class CYapfDestinationRouteLinkT {
 	int m_max_cost;            ///< Maximum node cost.
 
 	/** To access inherited path finder. */
-	FORCEINLINE Tpf& Yapf() { return *static_cast<Tpf*>(this); }
+	inline Tpf& Yapf() { return *static_cast<Tpf*>(this); }
 
 public:
 	/** Get the maximum allowed node cost. */
-	FORCEINLINE int GetMaxCost() const
+	inline int GetMaxCost() const
 	{
 		return this->m_max_cost;
 	}
@@ -282,7 +282,7 @@ public:
 	}
 
 	/** Cost for delivering the cargo to the final destination tile. */
-	FORCEINLINE int DeliveryCost(Station *st)
+	inline int DeliveryCost(Station *st)
 	{
 		int x = TileX(this->m_dest.tile);
 		int y = TileY(this->m_dest.tile);
@@ -297,20 +297,20 @@ public:
 	}
 
 	/** Called by YAPF to detect if the station reaches the destination. */
-	FORCEINLINE bool PfDetectDestination(StationID st_id) const
+	inline bool PfDetectDestination(StationID st_id) const
 	{
 		const Station *st = Station::Get(st_id);
 		return st->rect.AreaInExtendedRect(this->m_dest, st->GetCatchmentRadius());
 	}
 
 	/** Called by YAPF to detect if the node reaches the destination. */
-	FORCEINLINE bool PfDetectDestination(const Node& n) const
+	inline bool PfDetectDestination(const Node& n) const
 	{
 		return n.GetRouteLink() == NULL;
 	}
 
 	/** Called by YAPF to calculate the estimated cost to the destination. */
-	FORCEINLINE bool PfCalcEstimate(Node& n)
+	inline bool PfCalcEstimate(Node& n)
 	{
 		if (this->PfDetectDestination(n)) {
 			n.m_estimate = n.m_cost;
@@ -335,7 +335,7 @@ class CYapfFollowRouteLinkT {
 	typedef typename Types::NodeList::Titem Node;        ///< This will be our node type.
 
 	/** To access inherited path finder. */
-	FORCEINLINE Tpf& Yapf() { return *static_cast<Tpf*>(this); }
+	inline Tpf& Yapf() { return *static_cast<Tpf*>(this); }
 
 public:
 	/** Called by YAPF to move from the given node to the next nodes. */
@@ -361,7 +361,7 @@ public:
 	}
 
 	/** Return debug report character to identify the transportation type. */
-	FORCEINLINE char TransportTypeChar() const
+	inline char TransportTypeChar() const
 	{
 		return 'c';
 	}

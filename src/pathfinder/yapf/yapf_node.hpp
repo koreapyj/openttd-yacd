@@ -87,14 +87,14 @@ struct CYapfNodeTrackT : public CYapfNodeT<Tkey_, Tnode>
 	typedef CYapfNodeT<Tkey_, Tnode> Base;
 	typedef Tnode                    Node;
 
-	FORCEINLINE void Set(Node *parent, TileIndex tile, Trackdir td, bool is_choice)
+	inline void Set(Node *parent, TileIndex tile, Trackdir td, bool is_choice)
 	{
 		Base::Set(parent, is_choice);
 		this->m_key.Set(tile, td);
 	}
 
-	FORCEINLINE TileIndex GetTile() const { return this->m_key.m_tile; }
-	FORCEINLINE Trackdir GetTrackdir() const { return this->m_key.m_td; }
+	inline TileIndex GetTile() const { return this->m_key.m_tile; }
+	inline Trackdir GetTrackdir() const { return this->m_key.m_td; }
 };
 
 #endif /* YAPF_NODE_HPP */
