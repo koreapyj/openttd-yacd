@@ -253,6 +253,10 @@ void Load_TOWN()
 		uint town_x = (TileX(t->xy) / AcceptanceMatrix::GRID) * AcceptanceMatrix::GRID;
 		uint town_y = (TileY(t->xy) / AcceptanceMatrix::GRID) * AcceptanceMatrix::GRID;
 		t->xy_aligned= TileXY(town_x, town_y);
+
+		if (t->townnamegrfid == 0 && !IsInsideMM(t->townnametype, SPECSTR_TOWNNAME_START, SPECSTR_TOWNNAME_LAST)) {
+			SlErrorCorrupt("Invalid town name generator");
+		}
 	}
 }
 
