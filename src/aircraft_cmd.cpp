@@ -307,7 +307,7 @@ CommandCost CmdBuildAircraft(TileIndex tile, DoCommandFlag flags, const Engine *
 
 		v->InvalidateNewGRFCacheOfChain();
 
-		v->cargo_cap = GetVehicleCapacity(v, &u->cargo_cap);
+		v->cargo_cap = e->DetermineCapacity(v, &u->cargo_cap);
 
 		v->InvalidateNewGRFCacheOfChain();
 
