@@ -2672,6 +2672,9 @@ bool AfterLoadGame()
 		}
 	}
 
+	/* The center of train vehicles was changed, fix up spacing. */
+	if (IsSavegameVersionBefore(164)) FixupTrainLengths();
+
 	if (IsSavegameVersionBefore(201)) {
 		/* Update cargo acceptance map of towns. */
 		for (TileIndex t = 0; t < map_size; t++) {
