@@ -84,9 +84,9 @@ struct Town : TownPool::PoolItem<&_town_pool>, CargoSourceSink {
 	inline byte GetPercentTransported(CargoID cid) const { return this->supplied[cid].old_act * 256 / (this->supplied[cid].old_max + 1); }
 
 	/* Cargo production and acceptance stats. */
-	uint32 cargo_produced;           ///< Bitmap of all cargos produced by houses in this town.
-	AcceptanceMatrix cargo_accepted; ///< Bitmap of cargos accepted by houses for each 4*4 map square of the town.
-	uint32 cargo_accepted_total;     ///< NOSAVE: Bitmap of all cargos accepted by houses in this town.
+	uint32 cargo_produced;           ///< Bitmap of all cargoes produced by houses in this town.
+	AcceptanceMatrix cargo_accepted; ///< Bitmap of cargoes accepted by houses for each 4*4 map square of the town.
+	uint32 cargo_accepted_total;     ///< NOSAVE: Bitmap of all cargoes accepted by houses in this town.
 
 	uint16 time_until_rebuild;     ///< time until we rebuild a house
 
@@ -223,7 +223,7 @@ void ResetHouses();
 void ClearTownHouse(Town *t, TileIndex tile);
 void UpdateTownMaxPass(Town *t);
 void UpdateTownRadius(Town *t);
-void UpdateTownCargos(Town *t, bool update_station = false);
+void UpdateTownCargoes(Town *t, bool update_station = false);
 void UpdateTownCargoTotal(Town *t);
 void UpdateTownCargoBitmap();
 CommandCost CheckIfAuthorityAllowsNewStation(TileIndex tile, DoCommandFlag flags);
@@ -326,6 +326,6 @@ void MakeDefaultName(T *obj)
 	obj->town_cn = (uint16)next; // set index...
 }
 
-extern uint32 _town_cargos_accepted;
+extern uint32 _town_cargoes_accepted;
 
 #endif /* TOWN_H */

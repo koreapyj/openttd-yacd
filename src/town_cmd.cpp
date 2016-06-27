@@ -53,7 +53,7 @@
 #include "table/town_land.h"
 
 TownID _new_town_id;
-uint32 _town_cargos_accepted; ///< Bitmap of all cargos accepted by houses.
+uint32 _town_cargoes_accepted; ///< Bitmap of all cargoes accepted by houses.
 
 /* Initialize the town-pool */
 TownPool _town_pool("Town");
@@ -730,13 +730,13 @@ void UpdateTownCargoTotal(Town *t)
 }
 
 /**
- * Update accepted town cargos around a specific tile.
+ * Update accepted town cargoes around a specific tile.
  * @param t The town to update.
  * @param start Update the values around this tile.
  * @param update_total Set to true if the total cargo acceptance should be updated.
  * @param update_station Set to true if the station coverage should be updated.
  */
-static void UpdateTownCargos(Town *t, TileIndex start, bool update_total = true, bool update_station = false)
+static void UpdateTownCargoes(Town *t, TileIndex start, bool update_total = true, bool update_station = false)
 {
 	CargoArray accepted, produced;
 	uint32 dummy;
@@ -752,7 +752,7 @@ static void UpdateTownCargos(Town *t, TileIndex start, bool update_total = true,
 		AddProducedCargo_Town(tile, produced);
 	}
 
-	/* Create bitmap of produced and accepted cargos. */
+	/* Create bitmap of produced and accepted cargoes. */
 	uint32 acc = 0;
 	for (uint cid = 0; cid < NUM_CARGO; cid++) {
 		if (accepted[cid] >= 8) SetBit(acc, cid);
@@ -775,8 +775,11 @@ static void UpdateTownCargos(Town *t, TileIndex start, bool update_total = true,
 	if (update_total) UpdateTownCargoTotal(t);
 }
 
-/** Update cargo production and acceptance for the complete town. */
-void UpdateTownCargos(Town *t, bool update_station)
+/** Update cargo acceptance for the complete town.
+ * @param t The town to update.
+ * @param update_station Set to true if the station coverage should be updated.
+ */
+void UpdateTownCargoes(Town *t, bool update_station)
 {
 	t->cargo_produced = 0;
 
@@ -786,7 +789,7 @@ void UpdateTownCargos(Town *t, bool update_station)
 	/* Update acceptance for each grid square. */
 	TILE_AREA_LOOP(tile, area) {
 		if (TileX(tile) % AcceptanceMatrix::GRID == 0 && TileY(tile) % AcceptanceMatrix::GRID == 0) {
-			UpdateTownCargos(t, tile, false, update_station);
+			UpdateTownCargoes(t, tile, false, update_station);
 		}
 	}
 
@@ -794,14 +797,14 @@ void UpdateTownCargos(Town *t, bool update_station)
 	UpdateTownCargoTotal(t);
 }
 
-/** Updates the bitmap of all cargos accepted by houses. */
+/** Updates the bitmap of all cargoes accepted by houses. */
 void UpdateTownCargoBitmap()
 {
 	Town *town;
-	_town_cargos_accepted = 0;
+	_town_cargoes_accepted = 0;
 
 	FOR_ALL_TOWNS(town) {
-		_town_cargos_accepted |= town->cargo_accepted_total;
+		_town_cargoes_accepted |= town->cargo_accepted_total;
 	}
 }
 
@@ -2357,7 +2360,7 @@ static bool BuildTownHouse(Town *t, TileIndex tile)
 		}
 
 		MakeTownHouse(tile, t, construction_counter, construction_stage, house, random_bits);
-		UpdateTownCargos(t, tile, true, true);
+		UpdateTownCargoes(t, tile, true, true);
 
 		return true;
 	}
@@ -2441,7 +2444,7 @@ void ClearTownHouse(Town *t, TileIndex tile)
 	if (eflags & BUILDING_HAS_4_TILES) DoClearTownHouseHelper(tile + TileDiffXY(1, 1), t, ++house);
 
 	/* Update cargo acceptance. */
-	UpdateTownCargos(t, tile);
+	UpdateTownCargoes(t, tile);
 }
 
 /**
@@ -3210,7 +3213,7 @@ void TownsMonthlyLoop()
 		UpdateTownRating(t);
 		UpdateTownGrowRate(t);
 		UpdateTownUnwanted(t);
-		UpdateTownCargos(t);
+		UpdateTownCargoes(t);
 	}
 
 	UpdateTownCargoBitmap();
