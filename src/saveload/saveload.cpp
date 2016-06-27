@@ -43,6 +43,7 @@
 #include "../fios.h"
 #include "../gui.h"
 #include "../cargodest_base.h"
+#include "../error.h"
 
 #include "table/strings.h"
 
