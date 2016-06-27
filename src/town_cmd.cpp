@@ -1551,8 +1551,6 @@ static void DoCreateTown(Town *t, TileIndex tile, uint32 townnameparts, TownSize
 	t->pass.old_act = 0;
 	t->mail.old_act = 0;
 
-	t->pct_pass_transported = 0;
-	t->pct_mail_transported = 0;
 	t->fund_buildings_months = 0;
 	t->new_act_food = 0;
 	t->new_act_water = 0;
@@ -2935,15 +2933,10 @@ static void UpdateTownGrowRate(Town *t)
 
 static void UpdateTownAmounts(Town *t)
 {
-	/* Using +1 here to prevent overflow and division by zero */
-	t->pct_pass_transported = t->pass.new_act * 256 / (t->pass.new_max + 1);
-
 	t->pass.NewMonth();
 	t->act_food = t->new_act_food; t->new_act_food = 0;
 	t->act_water = t->new_act_water; t->new_act_water = 0;
 
-	/* Using +1 here to prevent overflow and division by zero */
-	t->pct_mail_transported = t->mail.new_act * 256 / (t->mail.new_max + 1);
 	t->mail.NewMonth();
 
 	SetWindowDirty(WC_TOWN_VIEW, t->index);

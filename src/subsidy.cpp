@@ -171,7 +171,7 @@ static Subsidy *FindSubsidyPassengerRoute()
 
 	Town *src = Town::GetRandom();
 	if (src->population < SUBSIDY_PAX_MIN_POPULATION ||
-			src->pct_pass_transported > SUBSIDY_MAX_PCT_TRANSPORTED) {
+			src->GetPercentPassTransported() > SUBSIDY_MAX_PCT_TRANSPORTED) {
 		return NULL;
 	}
 
