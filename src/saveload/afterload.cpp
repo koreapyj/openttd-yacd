@@ -2693,6 +2693,13 @@ bool AfterLoadGame()
 		}
 	}
 
+	if (IsSavegameVersionBefore(165)) {
+		/* Adjust zoom level to account for new levels */
+		_saved_scrollpos_zoom = _saved_scrollpos_zoom + ZOOM_LVL_SHIFT;
+		_saved_scrollpos_x *= ZOOM_LVL_BASE;
+		_saved_scrollpos_y *= ZOOM_LVL_BASE;
+	}
+
 	if (IsSavegameVersionBefore(201)) {
 		/* Update cargo acceptance map of towns. */
 		for (TileIndex t = 0; t < map_size; t++) {
