@@ -109,7 +109,7 @@ bool TileArea::Contains(TileIndex tile) const
 	uint tile_x = TileX(tile);
 	uint tile_y = TileY(tile);
 
-	return tile_x >= left && tile_x < left + this->w && tile_y >= top && tile_y < top + this->h;
+	return IsInsideBS(tile_x, left, this->w) && IsInsideBS(tile_y, top, this->h);
 }
 
 /**
