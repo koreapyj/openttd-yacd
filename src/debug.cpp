@@ -40,6 +40,9 @@ int _debug_gamelog_level;
 int _debug_desync_level;
 int _debug_console_level;
 int _debug_cargodest_level;
+#ifdef RANDOM_DEBUG
+int _debug_random_level;
+#endif
 
 uint32 _realtime_tick = 0;
 
@@ -66,6 +69,9 @@ struct DebugLevel {
 	DEBUG_LEVEL(desync),
 	DEBUG_LEVEL(console),
 	DEBUG_LEVEL(cargodest),
+#ifdef RANDOM_DEBUG
+	DEBUG_LEVEL(random),
+#endif
 	};
 #undef DEBUG_LEVEL
 
@@ -87,7 +93,21 @@ static void debug_print(const char *dbg, const char *buf)
 		return;
 	}
 #endif /* ENABLE_NETWORK */
-	if (strcmp(dbg, "desync") != 0) {
+	if (strcmp(dbg, "desync") == 0) {
+		static FILE *f = FioFOpenFile("commands-out.log", "wb", AUTOSAVE_DIR);
+		if (f == NULL) return;
+
+		fprintf(f, "%s%s\n", GetLogPrefix(), buf);
+		fflush(f);
+#ifdef RANDOM_DEBUG
+	} else if (strcmp(dbg, "random") == 0) {
+		static FILE *f = FioFOpenFile("random-out.log", "wb", AUTOSAVE_DIR);
+		if (f == NULL) return;
+
+		fprintf(f, "%s\n", buf);
+		fflush(f);
+#endif
+	} else {
 #if defined(WINCE)
 		/* We need to do OTTD2FS twice, but as it uses a static buffer, we need to store one temporary */
 		TCHAR tbuf[512];
@@ -100,12 +120,6 @@ static void debug_print(const char *dbg, const char *buf)
 		NetworkAdminConsole(dbg, buf);
 #endif /* ENABLE_NETWORK */
 		IConsoleDebug(dbg, buf);
-	} else {
-		static FILE *f = FioFOpenFile("commands-out.log", "wb", AUTOSAVE_DIR);
-		if (f == NULL) return;
-
-		fprintf(f, "%s%s\n", GetLogPrefix(), buf);
-		fflush(f);
 	}
 }
 
