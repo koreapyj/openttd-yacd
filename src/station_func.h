@@ -12,12 +12,9 @@
 #ifndef STATION_FUNC_H
 #define STATION_FUNC_H
 
-#include "station_type.h"
 #include "sprite.h"
 #include "rail_type.h"
 #include "road_type.h"
-#include "cargo_type.h"
-#include "company_type.h"
 #include "economy_func.h"
 #include "order_type.h"
 

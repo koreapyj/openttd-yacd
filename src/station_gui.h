@@ -15,7 +15,6 @@
 #include "command_type.h"
 #include "tilearea_type.h"
 #include "window_type.h"
-#include "widgets/station_widget.h"
 
 /** Types of cargo to display for station coverage. */
 enum StationCoverageType {

@@ -18,7 +18,6 @@
 #include "industry_type.h"
 #include "newgrf_storage.h"
 #include "cargodest_type.h"
-#include "town.h"
 
 typedef Pool<BaseStation, StationID, 32, 64000> StationPool;
 extern StationPool _station_pool;

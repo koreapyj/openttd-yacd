@@ -53,6 +53,7 @@
 #include "newgrf_house.h"
 #include "company_gui.h"
 #include "cargodest_func.h"
+#include "widgets/station_widget.h"
 
 #include "table/strings.h"
 
