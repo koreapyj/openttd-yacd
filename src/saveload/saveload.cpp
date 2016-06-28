@@ -236,6 +236,7 @@
  *  168   23637
  *  169   23816
  *  170   23826
+ *  171   23835
  *  201   yacd
  */
 extern const uint16 SAVEGAME_VERSION = 201; ///< Current savegame version of OpenTTD.
