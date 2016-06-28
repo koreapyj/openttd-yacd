@@ -426,12 +426,12 @@ bool FindSubsidyCargoDestination(CargoID cid, SourceType src_type, SourceID src)
 				if (src_type == ST_TOWN) {
 					auto *src_town = Town::Get(src);
 					link = src_town->GetRandomLink(cid, false);
-					if (link == src_town->cargo_links[cid].End()) return NULL;
+					if (link == NULL || link == src_town->cargo_links[cid].End()) return NULL;
 				}
 				else {
 					auto *src_ind = Industry::Get(src);
 					link = src_ind->GetRandomLink(cid, false);
-					if (link == src_ind->cargo_links[cid].End()) return NULL;
+					if (link == NULL || link == src_ind->cargo_links[cid].End()) return NULL;
 				}
 				if (link->dest != NULL && link->dest->GetType() != dst_type) return NULL;
 				dst_town = static_cast<const Town *>(link->dest);
@@ -454,12 +454,12 @@ bool FindSubsidyCargoDestination(CargoID cid, SourceType src_type, SourceID src)
 				if (src_type == ST_TOWN) {
 					auto *src_town = Town::Get(src);
 					CargoLink *link = src_town->GetRandomLink(cid, false);
-					if (link == src_town->cargo_links[cid].End()) return NULL;
+					if (link == NULL || link == src_town->cargo_links[cid].End()) return NULL;
 				}
 				else {
 					auto *src_ind = Industry::Get(src);
 					CargoLink *link = src_ind->GetRandomLink(cid, false);
-					if (link == src_ind->cargo_links[cid].End()) return NULL;
+					if (link == NULL || link == src_ind->cargo_links[cid].End()) return NULL;
 				}
 				if (link->dest != NULL && link->dest->GetType() != dst_type) return NULL;
 				dst_ind = static_cast<const Industry *>(link->dest);
